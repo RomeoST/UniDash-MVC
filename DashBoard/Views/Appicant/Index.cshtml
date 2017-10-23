@@ -1,0 +1,141 @@
+﻿
+@{
+    ViewBag.Title = "Редагування | Абітурієнти | DUT";
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Абітурієнти > Редагування</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="col-md-3">
+                    <select class="list-applicant" size="15">
+                        <option>Колесник Роман Олександрович</option>
+                        <option>Борисов Адрей Игорович</option>
+                        <option>Заєць Ольга Андріївна</option>
+                        <option>Яскевич Юлія Владиславівна</option>
+                        <option>Мацура Микола Дмитрович</option>
+                    </select>
+                </div>
+                <div class="col-md-9">
+                    <div class="x_panel">
+                        <div class="x_title">Персональні дані</div>
+                        <div class="x_content">
+                            <div class="col-md-6 form-horizontal">
+                                <div class="form-group">
+                                    @Html.Label("Id", new {@class = "control-label col-md-3"})
+                                    <div class="col-md-9">@Html.TextBox("Id", "", new {@class = "form-control", placeholder = "Ідентифікатор"})</div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("ПІБ", new {@class = "control-label col-md-3"})
+                                    <div class="col-md-9">@Html.TextBox("Name", "", new {@class = "form-control", placeholder = "Прізвище, ім'я, по-батькові"})</div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Телефон", new {@class = "control-label col-md-3"})
+                                    <div class="col-md-9"><input class="form-control" type="text" data-inputmask="'mask' : '(999) 999-9999'">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 form-horizontal">
+                                <div class="form-group">
+                                    @Html.Label("Заклад", new { @class = "control-label col-md-3" })
+                                    <div class="col-md-9">@Html.TextBox("School", "", new { @class = "form-control", placeholder = "Назва закладу" })</div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Адреса", new { @class = "control-label col-md-3" })
+                                    <div class="col-md-9">@Html.TextBox("Address", "", new { @class = "form-control", placeholder = "Місто, вулиця, тощо..." })</div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("E-mail", new { @class = "control-label col-md-3" })
+                                    <div class="col-md-9">@Html.TextBox("Address", "", new { @class = "form-control", placeholder = "exaple@gmail.com" })</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="x_panel">
+                        <div class="x_title">Побажання</div>
+                        <div class="x_content">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control" style="margin-bottom: 15px;">
+                                        <option>TEST</option>
+                                        <option>TEST</option>
+                                        <option>TEST</option>
+                                        <option>TEST</option>
+                                    </select>
+                                    <div class="col-md-6">
+                                        <button class="form-control btn-default">Додати</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="form-control btn-default">Видалити</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control" size="4">
+                                        <option>Test</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-offset-6">
+                        <button value="cancel" class="form-control btn-danger">Відміна</button>
+                    </div>
+                    <div class="col-md-3">
+                        <button value="save" class="form-control btn-success">Зберегти</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    
+</script>
+<style>
+    .list-applicant {
+        overflow: auto;
+        border: 0;
+        outline: 0;
+        width: 100%;
+        border-right: 2px dotted grey;
+        padding-right: 5px;
+    }
+
+    .list-applicant > option:nth-child(even) {
+        background-color: #EEEEEE;
+    }
+
+    .list-applicant > option {
+        margin: 0;
+        padding: 5px;
+        color: #73879c;
+    }
+
+    .list-applicant > option:hover {
+        background-color: #73879c;
+        color: white;
+    }
+
+    .list-special {
+        width: 100%;
+        border: none;
+    }
+
+    .state-icon {
+        left: -5px;
+    }
+    .list-group-item-primary {
+        color: rgb(255, 255, 255);
+        background-color: rgb(66, 139, 202);
+    }
+</style>
+

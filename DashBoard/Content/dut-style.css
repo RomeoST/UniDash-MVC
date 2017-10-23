@@ -1,0 +1,27 @@
+﻿.list-default {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: none;
+}
+
+.list-default > option {
+    padding: 10px;
+    font-weight: bold;
+    
+}
+
+.list-default > option:hover {
+    padding-left: 7px;
+    border-left: 3px solid #23527c;
+}
+
+.list-default > option:checked {
+    background-color: #23527c;
+}
+
+.list-default > option:checked:hover {
+    padding-right: 5px;
+    border-right: 5px solid rgb(90, 167, 225);
+}
+

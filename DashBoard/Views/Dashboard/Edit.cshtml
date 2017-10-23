@@ -1,0 +1,93 @@
+﻿@model DashBoard.Models.EditUserFormModel
+
+@{
+    ViewBag.Title = "Налаштування";
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Налаштування</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                @using (Ajax.BeginForm("EditProfile", new {Controller="Account"}, new AjaxOptions() { OnComplete = "requestNotifyComplete" }, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(p => p.Id)
+                    <div class="form-group">
+                        @Html.LabelFor(p => p.Login, "Логін", new { @class = "control-label col-md-4 col-sm-4 col-xs-12" })
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            @Html.TextBoxFor(p => p.Login, "", new {@class = "form-control", placeholder = "Логін",disabled = "disabled" })
+                            <span class="fa fa-user form-control-feedback right"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(p => p.FullName, "ФІО", new { @class = "control-label col-md-4 col-sm-4 col-xs-12" })
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            @Html.TextBoxFor(p => p.FullName, "", new {@class = "form-control", placeholder = "ФІО"})
+                            <span class="fa fa-user form-control-feedback right"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(p => p.Phone, "Телефон", new { @class = "control-label col-md-4 col-sm-4 col-xs-12" })
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            @Html.TextBoxFor(p => p.Phone, "", new {@class = "form-control", placeholder = "Телефон", })
+                            <span class="fa fa-phone form-control-feedback right"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(p => p.Email, "Email", new { @class = "control-label col-md-4 col-sm-4 col-xs-12" })
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            @Html.TextBoxFor(p => p.Email, "", new {@class = "form-control", placeholder = "Email"})
+                            <span class="fa fa-envelope form-control-feedback right"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="pull-right col-md-1 btn btn-success" value="Зберегти"/>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Зміна паролю</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                @using (Html.BeginForm("Edit", "Dashboard", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    <div class="form-group">
+                        @Html.Label("Старий пароль", new { @class = "control-label col-md-4 col-sm-4 col-xs-12" })
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            @Html.Password("PasswordOld", "",new { @class = "form-control", placeholder = "Password" })
+                            <span class="fa fa-user form-control-feedback right"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Новий пароль", new { @class = "control-label col-md-4 col-sm-4 col-xs-12" })
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            @Html.Password("PasswordNew","", new { @class = "form-control", placeholder = "Password" })
+                            <span class="fa fa-user form-control-feedback right"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="pull-right col-md-1 btn btn-success" value="Змінити" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

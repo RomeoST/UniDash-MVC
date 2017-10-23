@@ -1,0 +1,103 @@
+﻿@model IEnumerable<DashBoard.Models.AccessEditFormModel>
+@{
+    ViewBag.Title = "AccessEdit";
+}
+
+<!-- Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Закрити</span></button>
+                <h4 class="modal-title" id="myModalLabel">Додати доступ</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Скасувати</button>
+                <button type="button" class="btn btn-primary">Додати</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Адміністрування -> Доступ</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Користувачі</h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <select id="listUsers" class="list-default form-control" size="10">
+                                    @foreach (var m in Model)
+                                    {
+                                        <option value="@m.UserName">@m.FullName (@m.UserName)</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Види доступу</h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <select id="listAccess" class="list-default form-control" size="10">
+                                    
+                                </select>
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <button value="Додати" class="form-control btn-success" data-toggle="modal" data-target="#addModal">Додати</button>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <button value="Видалити" class="form-control btn-danger">Видалити</button>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section ScrJquery{
+    <script src="/Scripts/jquery-1.10.2.min.js"></script>
+    <script>
+        $(function() {
+            $("#listUsers").change(function() {
+                var userName = $(this).val();
+                var test = '@Url.Action("AccessGetRoles", "Account")/' + userName;
+                $.ajax({
+                    type: 'GET',
+                    url: test,
+                    success: function (data) {
+                        $('#listAccess').replaceWith(data);
+                    }
+                });
+            });
+        })
+    </script>
+}
+
+
