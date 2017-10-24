@@ -21,13 +21,11 @@ namespace DashBoard.Model.Models
         public string Description { get; set; }
 
         [ForeignKey("Faculty")]
-        public int FacultyId { get; set; }
-
+        public int? FacultyId { get; set; }
         public virtual Faculty Faculty { get; set; }
 
-        //[ForeignKey("Institute")]
-        //public int InstituteId { get; set; }
-
-        //public virtual Institute Institute { get; set; }
+        [ForeignKey("Institute")]
+        public int? InstituteId { get; set; }
+        public virtual Institute Institute { get; set; }
     }
 }

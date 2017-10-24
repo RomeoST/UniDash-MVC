@@ -42,8 +42,6 @@ namespace DashBoard.DAL.EF
                 }}
             });
 
-            context.SaveChanges();
-
             context.Faculties.AddRange(new List<Faculty>
             {
                 new Faculty {Name = "Інформаційних технологій", Departments = new List<Department>

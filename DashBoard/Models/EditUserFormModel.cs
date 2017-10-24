@@ -13,7 +13,6 @@ namespace DashBoard.Models
         [Required]
         public string FullName { get; set; }
         public string Phone { get; set; }
-        [Required]
         [EmailAddress(ErrorMessage = "Не вірно вказага пошта")]
         public string Email { get; set; }
     }

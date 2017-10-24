@@ -277,11 +277,12 @@
     <Content Include="Views\Dashboard\Welcome.cshtml" />
     <Content Include="Views\Dashboard\UserList.cshtml" />
     <Content Include="Views\Dashboard\Edit.cshtml" />
-    <Content Include="Views\Appicant\Index.cshtml" />
+    <Content Include="Views\Applicant\Index.cshtml" />
     <Content Include="Views\Submission\Index.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Dashboard\AccessEdit.cshtml" />
     <Content Include="Views\Shared\_PartialDefaultTable.cshtml" />
+    <Content Include="Views\Shared\_PartialDefaultComboBox.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

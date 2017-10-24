@@ -1,0 +1,7 @@
+﻿@model IEnumerable<DashBoard.Models.BaseFormModel>
+<select class="form-control" style="margin-bottom: 15px;">
+    @foreach (var item in Model)
+    {
+        <option value="@item.Id">@item.Name</option>
+    }
+</select>
