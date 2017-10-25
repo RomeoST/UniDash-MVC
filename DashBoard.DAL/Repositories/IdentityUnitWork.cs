@@ -66,6 +66,7 @@ namespace DashBoard.DAL.Repositories
                     userManager.Dispose();
                     roleManager.Dispose();
                     clientManager.Dispose();
+                    applicantManager.Dispose();
                 }
                 this.disposed = true;
             }

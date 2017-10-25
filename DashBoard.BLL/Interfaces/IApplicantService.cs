@@ -8,7 +8,7 @@ using DashBoard.Model.Models;
 
 namespace DashBoard.BLL.Interfaces
 {
-    interface IApplicantService : IDisposable
+    public interface IApplicantService : IDisposable
     {
         Task<OperationDetails> Create(Applicant app);
         Task<OperationDetails> Edit(Applicant app);

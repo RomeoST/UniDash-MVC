@@ -1,5 +1,8 @@
 using System.Web.Mvc;
 using DashBoard.BLL.Infrastructure;
+using DashBoard.BLL.Interfaces;
+using DashBoard.BLL.Services;
+using DashBoard.Controllers;
 using DashBoard.Until;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(DashBoard.App_Start.NinjectWebCommon), "Start")]
@@ -69,6 +72,8 @@ namespace DashBoard.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
+
+            //kernel.Bind<IApplicantService>().To<ApplicantService>()
         }        
     }
 }
