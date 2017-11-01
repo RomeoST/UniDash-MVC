@@ -16,7 +16,7 @@ namespace DashBoard.Until
         public NinjectDependencyResolver(IKernel kernelParam)
         {
             kernel = kernelParam;
-            AddBindings();
+            //AddBindings();
         }
 
         public object GetService(Type serviceType)

@@ -1,24 +1,18 @@
-using System.Web.Mvc;
 using DashBoard.BLL.Infrastructure;
-using DashBoard.BLL.Interfaces;
-using DashBoard.BLL.Services;
-using DashBoard.Controllers;
 using DashBoard.Until;
+using System.Web.Mvc;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(DashBoard.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(DashBoard.App_Start.NinjectWebCommon), "Stop")]
 
 namespace DashBoard.App_Start
 {
+    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+    using Ninject;
+    using Ninject.Modules;
+    using Ninject.Web.Common;
     using System;
     using System.Web;
-
-    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-
-    using Ninject;
-    using Ninject.Web.Common;
-    using Ninject.Modules;
-    using DashBoard.Mapping;
 
     public static class NinjectWebCommon 
     {
@@ -48,7 +42,7 @@ namespace DashBoard.App_Start
         /// <returns>The created kernel.</returns>
         private static IKernel CreateKernel()
         {
-            var modules = new INinjectModule[] { new ServiceModule("UniversityContext") };
+            var modules = new INinjectModule[] { new ServiceModule("UniversityContext"), new DashboardModule() };
             var kernel = new StandardKernel(modules);
             try
             {
@@ -72,8 +66,6 @@ namespace DashBoard.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
-
-            //kernel.Bind<IApplicantService>().To<ApplicantService>()
         }        
     }
 }

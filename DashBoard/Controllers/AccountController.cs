@@ -17,9 +17,15 @@ namespace DashBoard.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private IUserService UserService => HttpContext.GetOwinContext().GetUserManager<IUserService>();
-        private IRoleService RoleService => HttpContext.GetOwinContext().GetUserManager<IRoleService>();
+        private IUserService UserService;
+        private IRoleService RoleService;
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
+
+        public AccountController(IUserService userService, IRoleService roleService)
+        {
+            UserService = userService;
+            RoleService = roleService;
+        }
 
         [AllowAnonymous]
         public ActionResult Login()

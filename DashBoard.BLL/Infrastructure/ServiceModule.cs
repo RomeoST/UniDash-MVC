@@ -9,6 +9,9 @@ using Ninject.Modules;
 
 namespace DashBoard.BLL.Infrastructure
 {
+    /// <summary>
+    /// Модуль для создания зависимости UnitOfWork
+    /// </summary>
     public class ServiceModule : NinjectModule
     {
         private readonly string _connectionString;

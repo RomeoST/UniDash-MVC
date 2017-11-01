@@ -13,7 +13,10 @@ namespace DashBoard.Controllers
     {
         private IApplicantService ApplicantService;
 
-       // public ApplicantController(IApplicantService applicantService) => ApplicantService = applicantService;
+        public ApplicantController(IApplicantService applicantService)
+        {
+            ApplicantService = applicantService;
+        }
 
         // GET: Appicant
         public ActionResult Index()
