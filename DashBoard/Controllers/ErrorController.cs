@@ -14,5 +14,17 @@ namespace DashBoard.Controllers
             Response.StatusCode = 404;
             return View();
         }
+
+        public ActionResult TimeOut()
+        {
+            Response.StatusCode = 504;
+            return View();
+        }
+
+        public ActionResult InternalError()
+        {
+            Response.StatusCode = 500;
+            return View();
+        }
     }
 }

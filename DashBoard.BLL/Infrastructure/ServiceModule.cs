@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DashBoard.DAL.Interfaces;
+﻿using DashBoard.DAL.Interfaces;
 using DashBoard.DAL.Repositories;
-using Ninject.Modules;
 
 namespace DashBoard.BLL.Infrastructure
 {
+    using Ninject.Modules;
     /// <summary>
     /// Модуль для создания зависимости UnitOfWork
     /// </summary>
