@@ -13,6 +13,7 @@ namespace DashBoard.DAL.Interfaces
         IClientManager ClientManager { get; }
         ISubmissionDoc SubmissionManager { get; }
         IApplicant     ApplicantManager { get; }
+        IUStructure    UStructManager { get; }
         DutRoleManager RoleManager { get; }
 
         Task SaveAsync();

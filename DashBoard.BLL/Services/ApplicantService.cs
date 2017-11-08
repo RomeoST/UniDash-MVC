@@ -87,7 +87,7 @@ namespace DashBoard.BLL.Services
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            DataBase.Dispose();
         }
     }
 }

@@ -65,17 +65,16 @@
                                 <div class="form-group">
                                     @Html.Action("GetDepartments")
                                     <div class="col-md-6">
-                                        <button class="form-control btn-default">Додати</button>
+                                        <button id="btn-add-depart" class="form-control btn-default">Додати</button>
                                     </div>
                                     <div class="col-md-6">
-                                        <button class="form-control btn-default">Видалити</button>
+                                        <button id="btn-del-depart" class="form-control btn-default">Видалити</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <select class="form-control" size="4">
-                                        <option>Test</option>
+                                    <select id="selectedListDepart" class="form-control" size="4" multiple>
                                     </select>
                                 </div>
                             </div>
@@ -92,9 +91,50 @@
         </div>
     </div>
 </div>
-<script>
-    
-</script>
+@section ScrJquery{
+    <script src="/Scripts/jquery-1.10.2.min.js"></script>
+    <script>
+        $("#btn-add-depart").on("click", function(event) {
+            var comboBox = $("#listDepart option:selected");
+
+            var btmp = false;
+            var lDepOption = $("#selectedListDepart option");
+            if (lDepOption.length == 4) {
+                new PNotify({ title: 'Попередження', text: 'Максимальна кількість побажань - 4', type: 'warning', styling: 'bootstrap3' });    
+                return;
+            }
+            lDepOption.each(function () {
+                if ($(this).val() == comboBox.val()) {
+                    btmp = true;
+                    return true;
+                }
+            });
+
+            if (btmp) {
+                new PNotify({ title: 'Попередження', text: 'Спеціальність вже додана у список', type: 'warning', styling: 'bootstrap3' });  
+                return;
+            }
+
+            $("#selectedListDepart").append($("<option/>",
+                {
+                    value: comboBox.val(),
+                    text: comboBox.text()
+                }));
+        })
+
+        $("#btn-del-depart").on("click", function(event) {
+            var lDepOption = $("#selectedListDepart option:selected");
+            if (lDepOption.length == 0) {
+                new PNotify({ title: 'Попередження', text: 'Нічого не обрано для видалення', type: 'warning', styling: 'bootstrap3' });  
+                return;
+            }
+
+            lDepOption.each(function() {
+                $(this).remove();
+            });
+        })
+    </script>
+}
 <style>
     .list-applicant {
         overflow: auto;

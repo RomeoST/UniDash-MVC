@@ -24,6 +24,7 @@ namespace DashBoard.DAL.Repositories
         private readonly IClientManager clientManager;
         private readonly ISubmissionDoc submissionManager;
         private readonly IApplicant     applicantManager;
+        private readonly IUStructure    uStructManager;
 
         public IdentityUnitWork(string connectionString)
         {
@@ -32,6 +33,7 @@ namespace DashBoard.DAL.Repositories
             roleManager = new DutRoleManager(new RoleStore<DutRole>(db));
             clientManager = new ClientManager(db);
             applicantManager = new ApplicantManager(db);
+            uStructManager = new UStructureManager(db);
             //submissionManager = new SubmissionManager(db);
         }
 
@@ -40,6 +42,7 @@ namespace DashBoard.DAL.Repositories
         public IClientManager ClientManager => clientManager;
         public ISubmissionDoc SubmissionManager => submissionManager;
         public IApplicant ApplicantManager => applicantManager;
+        public IUStructure UStructManager => uStructManager;
 
         /// <summary>
         /// Збереження всіх даних які відбувалися з БД
@@ -67,6 +70,7 @@ namespace DashBoard.DAL.Repositories
                     roleManager.Dispose();
                     clientManager.Dispose();
                     applicantManager.Dispose();
+                    uStructManager.Dispose();
                 }
                 this.disposed = true;
             }

@@ -9,6 +9,12 @@ using System.Threading.Tasks;
 
 namespace DashBoard.Model.Models
 {
+    public enum TypeUStruct
+    {
+        eInstitute,
+        eFaculty
+    }
+
     /// <summary>
     /// Клас таблиці спіальності
     /// </summary>
@@ -27,5 +33,7 @@ namespace DashBoard.Model.Models
         [ForeignKey("Institute")]
         public int? InstituteId { get; set; }
         public virtual Institute Institute { get; set; }
+
+        public bool? isAdmission { get; set; }
     }
 }

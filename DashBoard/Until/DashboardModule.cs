@@ -14,6 +14,7 @@ namespace DashBoard.Until
             Bind<IUserService>().To<UserService>();
             Bind<IRoleService>().To<RoleService>();
             Bind<IApplicantService>().To<ApplicantService>();
+            Bind<IUStructService>().To<UStructService>();
         }
     }
 }
