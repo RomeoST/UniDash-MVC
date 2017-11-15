@@ -17,7 +17,7 @@ namespace DashBoard.DAL.Interfaces
         Task DeleteAsync(Applicant app);
 
         Task<Applicant> Find(int id);
-        IEnumerable<Applicant> Find(Func<Applicant, bool> where);
+        Task<IEnumerable<Applicant>> Find(Func<Applicant, bool> where);
 
         Task<IEnumerable<Applicant>> GetAll();
     }

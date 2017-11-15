@@ -17,6 +17,7 @@ namespace DashBoard.Model.Models
         public int ApplicantId { get; set; }
         [ForeignKey("DutUser")]
         public string UserId { get; set; }
+        public string NameFound { get; set; }
         public string NameApplicant { get; set; }
         public string MailApplicant { get; set; }
         public string PhoneApplicant { get; set; }

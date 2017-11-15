@@ -29,6 +29,21 @@ namespace DashBoard.Mapping
             CreateMap<Department, BaseFormModel>()
                 .ForMember(s1 => s1.Id, s2 => s2.MapFrom(s3 => s3.Id))
                 .ForMember(s1 => s1.Name, s2 => s2.MapFrom(s3 => s3.Name));
+
+            CreateMap<Applicant, BaseFormModel>()
+                .ForMember(s1 => s1.Id, s2 => s2.MapFrom(s3 => s3.ApplicantId))
+                .ForMember(s1 => s1.Name, s2 => s2.MapFrom(s3 => s3.NameApplicant));
+
+            CreateMap<Applicant, ApplicantFormModel>()
+                .ForMember(s1 => s1.ApplicantId, s2 => s2.MapFrom(s3 => s3.ApplicantId))
+                .ForMember(s1 => s1.NameFound, s2 => s2.MapFrom(s3 => s3.NameFound))
+                .ForMember(s1 => s1.NameApplicant, s2 => s2.MapFrom(s3 => s3.NameApplicant))
+                .ForMember(s1 => s1.MailApplicant, s2 => s2.MapFrom(s3 => s3.MailApplicant))
+                .ForMember(s1 => s1.PhoneApplicant, s2 => s2.MapFrom(s3 => s3.PhoneApplicant))
+                .ForMember(s1 => s1.SchoolCollege, s2 => s2.MapFrom(s3 => s3.SchoolCollege))
+                .ForMember(s1 => s1.Address, s2 => s2.MapFrom(s3 => s3.Address))
+                .ForMember(s1 => s1.Speciality, s2 => s2.MapFrom(s3 => s3.Speciality))
+                .ForMember(s1 => s1.MarkResult, s2 => s2.MapFrom(s3 => s3.MarkResult));
         }
     }
 }

@@ -14,7 +14,8 @@ namespace DashBoard.BLL.Interfaces
         Task<OperationDetails> Edit(Applicant app);
         Task<OperationDetails> Delete(Applicant app);
 
-        IEnumerable<Applicant> Find(Func<Applicant, bool> where);
+        Task<Applicant> Find(int id);
+        Task<IEnumerable<Applicant>> Find(Func<Applicant, bool> where);
 
         Task<IEnumerable<Applicant>> GetAll();
     }

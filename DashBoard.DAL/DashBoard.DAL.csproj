@@ -72,6 +72,10 @@
     <Compile Include="Migrations\201711081839333_test2.Designer.cs">
       <DependentUpon>201711081839333_test2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711102233598_add to Applicant - NameFound.cs" />
+    <Compile Include="Migrations\201711102233598_add to Applicant - NameFound.Designer.cs">
+      <DependentUpon>201711102233598_add to Applicant - NameFound.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ApplicantManager.cs" />
@@ -96,6 +100,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711081839333_test2.resx">
       <DependentUpon>201711081839333_test2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711102233598_add to Applicant - NameFound.resx">
+      <DependentUpon>201711102233598_add to Applicant - NameFound.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

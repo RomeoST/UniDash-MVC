@@ -201,6 +201,8 @@
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\romeost - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
+    <Content Include="Scripts\BootstrapMenu.js" />
+    <Content Include="Scripts\BootstrapMenu.min.js" />
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\custom.min.js" />
     <Content Include="Scripts\dut-sys.js" />
@@ -212,6 +214,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\jquery.maskedinput.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
@@ -249,6 +252,7 @@
     <Compile Include="Mapping\DomainToViewMappingProfile.cs" />
     <Compile Include="Mapping\ViewToDomainMappingProfile.cs" />
     <Compile Include="Models\AccessEditFormModel.cs" />
+    <Compile Include="Models\ApplicantFormModel.cs" />
     <Compile Include="Models\BaseFormModel.cs" />
     <Compile Include="Models\LoginFormModel.cs" />
     <Compile Include="Models\RegisterFormModel.cs" />
@@ -274,6 +278,7 @@
     <Content Include="Views\Shared\_PartialDefaultComboBox.cshtml" />
     <Content Include="Views\Error\TimeOut.cshtml" />
     <Content Include="Views\Error\InternalError.cshtml" />
+    <Content Include="Views\Shared\_PartialDefaultList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

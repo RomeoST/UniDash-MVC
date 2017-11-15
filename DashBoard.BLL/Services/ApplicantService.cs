@@ -21,16 +21,23 @@ namespace DashBoard.BLL.Services
         /// </summary>
         /// <param name="app">Дані про абітурієнта</param>
         /// <returns></returns>
-        public async Task<OperationDetails> Create(Applicant app)
+        public async Task<OperationDetails> Create(Applicant applicant)
         {
-            // TODO: Дописать проверки на корректность вводимых данных
-            var result = DataBase.ApplicantManager.Find(p => p.NameApplicant == app.NameApplicant);
+            try
+            {
+                var app = await DataBase.ApplicantManager.Find(p => p.PhoneApplicant == applicant.PhoneApplicant ||
+                                                                    p.MailApplicant == applicant.MailApplicant || p.NameApplicant == applicant.NameApplicant);
+                if (app != null)
+                    return new OperationDetails(false, "Такий абітурієнт вже існує\nId - " + app.FirstOrDefault().ApplicantId, "");
 
-            if (result != null && result.Any())
-                return new OperationDetails(false, "Такий абітурієнт вже є у базі!", "");
+                await DataBase.ApplicantManager.CreateAsync(applicant);
+                return new OperationDetails(true, "Абітурієнт доданий у базу!", "");
+            }
+            catch (Exception e)
+            {
+                return new OperationDetails(false, e.Message, "");
+            }
 
-            await DataBase.ApplicantManager.CreateAsync(app);
-            return new OperationDetails(true, "Абітурієнт доданий у базу!", "");
         }
 
         /// <summary>
@@ -72,12 +79,14 @@ namespace DashBoard.BLL.Services
             return new OperationDetails(true, "Абітурієнт видалений", "");
         }
 
+        public async Task<Applicant> Find(int id) => await DataBase.ApplicantManager.Find(id);
+
         /// <summary>
         /// Пошук абітурієнта через where
         /// </summary>
         /// <param name="where">Параметр пошуку</param>
         /// <returns></returns>
-        public IEnumerable<Applicant> Find(Func<Applicant, bool> @where) => DataBase.ApplicantManager.Find(where);
+        public async Task<IEnumerable<Applicant>> Find(Func<Applicant, bool> @where) => await DataBase.ApplicantManager.Find(where);
 
         /// <summary>
         /// Отримати всіх абітурієнтів

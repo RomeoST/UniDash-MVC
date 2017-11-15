@@ -72,7 +72,7 @@ namespace DashBoard.DAL.Repositories
         /// </summary>
         /// <param name="where">Параметр пошуку</param>
         /// <returns></returns>
-        public IEnumerable<Applicant> Find(Func<Applicant, bool> @where) => DataBase.Applicants.Where(v => @where(v));
+        public async Task<IEnumerable<Applicant>> Find(Func<Applicant, bool> @where) => await DataBase.Applicants.Where(v => @where(v)).ToListAsync();
 
         /// <summary>
         /// Отримати всіх абітурієнтів
