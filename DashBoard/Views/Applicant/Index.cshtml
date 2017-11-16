@@ -2,6 +2,29 @@
     ViewBag.Title = "Редагування | Абітурієнти | DUT";
 }
 
+<!-- Modal -->
+<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Закрити</span></button>
+                <h4 class="modal-title" id="myModalLabel">Видалення</h4>
+            </div>
+            @using (Ajax.BeginForm("DeleteApplicant", new AjaxOptions() {OnSuccess = ""}))
+            {
+                <div class="modal-body">
+                    @Html.Hidden("applicantId")
+                    Ви дійсно хочете бажаєте абітурієнта: <span style="color: brown; font-weight: bold" id="appldel"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Скасувати</button>
+                    <button type="button" class="btn btn-primary">Видалити</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
@@ -130,11 +153,13 @@
                         {
                             name: 'Видалити абітурієнта',
                             iconClass: 'fa fa-minus',
-                            onClick: function(row) {
-
+                            onClick: function (row) {
+                                $('#appldel').text(currentApplicant.NameApplicant);
+                                $('#delModal').modal('show');
                             },
-                            isEnabled: function(row) {
-                                return isEditable;
+                            isEnabled: function (row) {
+                                var sel = $('#list-applicant option:selected').length;
+                                return !isEditable && sel > 0;
                             },
                         },
                         load10:
@@ -323,6 +348,13 @@
             }
         });
 
+        function applicantDelete() {
+            $.ajax({
+                type: 'POST',
+                url:
+            })
+        }
+
         function EditableMode(status,disform) {
             if (status) {
                 $('#btn-save').show();
@@ -372,6 +404,11 @@
             if (data.model == 'confirmed') {
                 new PNotify({ title: 'Повідомлення', text: data.modelList, type: 'success', styling: 'bootstrap3' });
                 EditableMode(false);
+
+                if (typeof data.applicantId != 'undefined') {
+                    $('#ApplicantId').val(data.applicantId);
+                }
+                $('#list-applicant option').last().text($('#NameApplicant').val());
             }
         }
 

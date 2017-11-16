@@ -73,11 +73,29 @@ namespace DashBoard.Controllers
 
             // Create or Edit applicant
             if (data.ApplicantId == 0)
+            {
                 result = await ApplicantService.Create(data);
-            else
-                result = await ApplicantService.Edit(data);
+                return result.Successed ?
+                    Json(new { model = "confirmed", modelList = result.Message, applicantId = result.Property }, JsonRequestBehavior.AllowGet) :
+                    Json(new { model = "failed", modelList = result.Message }, JsonRequestBehavior.AllowGet);
+            }
 
-            return Json(new {model = result.Successed?"confirmed":"failed", modelList = result.Message}, JsonRequestBehavior.AllowGet);
+            result = await ApplicantService.Edit(data);
+
+            return Json(new { model = result.Successed ? "confirmed" : "failed", modelList = result.Message }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteApplicant(int applicantId)
+        {
+            var applicant = await ApplicantService.Find(applicantId);
+            if(applicant == null)
+                return Json(new { model = "failed", modelList = "Абітурієнта не знайдено!" }, JsonRequestBehavior.AllowGet);
+
+            var result = await ApplicantService.Delete(applicant);
+
+            return Json(new { model = result.Successed ? "confirmed" : "failed", modelList = result.Message }, JsonRequestBehavior.AllowGet);
         }
 
         [ChildActionOnly]

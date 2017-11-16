@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using DashBoard.BLL.Infrastructure;
@@ -26,12 +27,18 @@ namespace DashBoard.BLL.Services
             try
             {
                 var app = await DataBase.ApplicantManager.Find(p => p.PhoneApplicant == applicant.PhoneApplicant ||
-                                                                    p.MailApplicant == applicant.MailApplicant || p.NameApplicant == applicant.NameApplicant);
-                if (app != null)
+                                                                    (p.MailApplicant == applicant.MailApplicant && !string.IsNullOrEmpty(applicant.MailApplicant)) ||
+                                                                    p.NameApplicant == applicant.NameApplicant);
+                if (app.Any())
                     return new OperationDetails(false, "Такий абітурієнт вже існує\nId - " + app.FirstOrDefault().ApplicantId, "");
 
+                applicant.DateAdd = DateTime.Now;
+                applicant.DateEdit = DateTime.Now;
+
                 await DataBase.ApplicantManager.CreateAsync(applicant);
-                return new OperationDetails(true, "Абітурієнт доданий у базу!", "");
+                var newUser = await DataBase.ApplicantManager.Find(p => p.PhoneApplicant == applicant.PhoneApplicant);
+
+                return new OperationDetails(true, "Абітурієнт доданий у базу!", $"{newUser.FirstOrDefault().ApplicantId}");
             }
             catch (Exception e)
             {
@@ -86,7 +93,7 @@ namespace DashBoard.BLL.Services
         /// </summary>
         /// <param name="where">Параметр пошуку</param>
         /// <returns></returns>
-        public async Task<IEnumerable<Applicant>> Find(Func<Applicant, bool> @where) => await DataBase.ApplicantManager.Find(where);
+        public async Task<IEnumerable<Applicant>> Find(Expression<Func<Applicant, bool>> @where) => await DataBase.ApplicantManager.Find(where);
 
         /// <summary>
         /// Отримати всіх абітурієнтів

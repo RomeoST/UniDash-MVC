@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -72,7 +73,10 @@ namespace DashBoard.DAL.Repositories
         /// </summary>
         /// <param name="where">Параметр пошуку</param>
         /// <returns></returns>
-        public async Task<IEnumerable<Applicant>> Find(Func<Applicant, bool> @where) => await DataBase.Applicants.Where(v => @where(v)).ToListAsync();
+        public async Task<IEnumerable<Applicant>> Find(Expression<Func<Applicant, bool>> @where)
+        {
+            return await DataBase.Applicants.Where(where).ToListAsync();
+        } 
 
         /// <summary>
         /// Отримати всіх абітурієнтів
