@@ -205,6 +205,7 @@
     <Content Include="Scripts\BootstrapMenu.min.js" />
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\custom.min.js" />
+    <Content Include="Scripts\dut-applicant.js" />
     <Content Include="Scripts\dut-sys.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

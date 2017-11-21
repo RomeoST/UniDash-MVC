@@ -82,7 +82,7 @@ namespace DashBoard.Controllers
 
             result = await ApplicantService.Edit(data);
 
-            return Json(new { model = result.Successed ? "confirmed" : "failed", modelList = result.Message }, JsonRequestBehavior.AllowGet);
+            return Json(new { model = result.Successed ? "confirmed" : "failed", modelList = result.Message, type="save" }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -95,7 +95,7 @@ namespace DashBoard.Controllers
 
             var result = await ApplicantService.Delete(applicant);
 
-            return Json(new { model = result.Successed ? "confirmed" : "failed", modelList = result.Message }, JsonRequestBehavior.AllowGet);
+            return Json(new { model = result.Successed ? "confirmed" : "failed", modelList = result.Message, type="remove" }, JsonRequestBehavior.AllowGet);
         }
 
         [ChildActionOnly]
