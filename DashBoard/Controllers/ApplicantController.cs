@@ -87,9 +87,9 @@ namespace DashBoard.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteApplicant(int applicantId)
+        public async Task<ActionResult> DeleteApplicant(BaseFormModel model)
         {
-            var applicant = await ApplicantService.Find(applicantId);
+            var applicant = await ApplicantService.Find(int.Parse(model.Id));
             if(applicant == null)
                 return Json(new { model = "failed", modelList = "Абітурієнта не знайдено!" }, JsonRequestBehavior.AllowGet);
 

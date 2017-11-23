@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "Редагування | Абітурієнти | DUT";
 }
-
+@model DashBoard.Models.BaseFormModel
 <!-- Modal -->
 <div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
@@ -10,15 +10,16 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Закрити</span></button>
                 <h4 class="modal-title" id="myModalLabel">Видалення</h4>
             </div>
-            @using (Ajax.BeginForm("DeleteApplicant", new AjaxOptions() {OnSuccess = ""}))
+            @using (Ajax.BeginForm("DeleteApplicant", new AjaxOptions() {OnSuccess = "applicant.handler", OnFailure = "test"}))
             {
+                @Html.AntiForgeryToken()
                 <div class="modal-body">
-                    @Html.Hidden("applicantId")
-                    Ви дійсно хочете бажаєте абітурієнта: <span style="color: brown; font-weight: bold" id="appldel"></span>
+                    @Html.HiddenFor(n => n.Id, new {id="Id"})
+                    Ви дійсно бажаєте видалити абітурієнта: <span style="color: brown; font-weight: bold" id="appldel"></span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Скасувати</button>
-                    <button type="button" class="btn btn-primary">Видалити</button>
+                    <button type="submit" class="btn btn-primary">Видалити</button>
                 </div>
             }
         </div>
@@ -40,7 +41,7 @@
                     @Html.Action("LoadApplicants", "Applicant", new {count = 0});
                 </div>
                 <div class="col-md-9" id="form_zero">
-                    @using (Ajax.BeginForm("SaveApplicant", new AjaxOptions() {OnSuccess = "applicantHandler", OnBegin = "applicantHandlerBegin"}))
+                    @using (Ajax.BeginForm("SaveApplicant", new AjaxOptions() {OnSuccess = "applicant.handler", OnBegin = "applicantHandlerBegin" }))
                     {
                         @Html.AntiForgeryToken()
                         <div class="x_panel">
@@ -117,15 +118,8 @@
     <script src="/Scripts/jquery.maskedinput.js"></script>
     <script src="/Scripts/dut-applicant.js"></script>
     <script>
-        // Send to server only SAVE
-        var isNotSendClick = false;
-
-        // before sending to the server (cancel/save)
-        function applicantHandlerBegin(e, data) {
-            if (isNotSendClick) {
-                isNotSendClick = false;
-                return false;
-            }
+        function test(s) {
+            alert(0);
         }
     </script>
 }
