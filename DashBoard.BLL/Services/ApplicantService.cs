@@ -66,6 +66,7 @@ namespace DashBoard.BLL.Services
             result.PhoneApplicant = app.PhoneApplicant;
             result.SchoolCollege = app.SchoolCollege;
             result.Speciality = app.Speciality;
+            result.DateEdit = DateTime.Now;
             await DataBase.SaveAsync();
 
             return new OperationDetails(true, "Абітурієнт збережений!", "");

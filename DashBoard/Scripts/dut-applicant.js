@@ -47,8 +47,26 @@ var applicant = {
             success: function (data) {
                 $('#list-applicant').replaceWith(data);
                 $("#list-applicant").change(listApplicantSelectEvent);
+                $('.list-applicant-info').text('| Рядок 0 з ' + $('#list-applicant option').size());
+                NProgress.done();
+            },
+            beforeSend:function() {
+                NProgress.start();
             }
         });
+    },
+    search: function () {
+        if ($('#bl-search').children().length) {
+            $('#bl-search').empty();
+        } else {
+            $.ajax({
+                type: 'GET',
+                url: '/Applicant/GetBlSearch',
+                success: function(data) {
+                    $('#bl-search').append(data);
+                }
+            });
+        }
     },
     addDepart: function() {
         var comboBox = $("#listDepart option:selected");
@@ -124,6 +142,10 @@ var applicant = {
         $('#MailApplicant').val(applicant.MailApplicant);
 
         updateSelectDepart(applicant.Speciality);
+
+        if (applicant.ApplicantId === "") {
+            $('#list-applicant option:selected').remove();
+        }
     },
     handler: function (data) {
         // save, remove of applicant
@@ -140,7 +162,7 @@ var applicant = {
 
         if (data.model === 'confirmed') {
             new PNotify({ title: 'Повідомлення', text: data.modelList, type: 'success', styling: 'bootstrap3' });
-            EditableMode(false);
+            editableMode(false);
 
             if (typeof data.type === 'undefined')
                 return;
@@ -151,12 +173,15 @@ var applicant = {
                     if (typeof data.applicantId !== 'undefined') {
                         $('#ApplicantId').val(data.applicantId);
                     }
-                    $('#list-applicant option').last().text($('#NameApplicant').val());
+                    
+                    $('#list-applicant option:selected').text($('#NameApplicant').val());
                 }
                 break;
             case "remove":
                 {
-                        
+                    editableMode(false, true);
+                    $('#list-applicant option:selected').remove();
+                    $('#delModal').modal('hide');
                 }
                 break;
             default:
@@ -165,7 +190,7 @@ var applicant = {
     }
 };
 
-$("#Phone").mask('+380 (99) 999-99-99');
+$("#PhoneApplicant").mask('+380 (99) 999-99-99');
 
 $('#form1').on('change',
     function (e) {
@@ -234,6 +259,7 @@ $('#btn-save').click(applicant.save.bind(applicant));
 $('#btn-cancel').click(applicant.cancel);
 $("#btn-add-depart").click(applicant.addDepart.bind(applicant));
 $("#btn-del-depart").click(applicant.delDepart.bind(applicant));
+$('#btn-search').click(applicant.search);
 
 // Event select listbox (list-applicant)
 function listApplicantSelectEvent() {
@@ -260,11 +286,15 @@ function listApplicantSelectEvent() {
             $('#ApplicantId').val(obj.applicant.ApplicantId);
             $('#NameApplicant').val(obj.applicant.NameApplicant);
             $('#PhoneApplicant').val(obj.applicant.PhoneApplicant.slice(1, obj.applicant.PhoneApplicant.length));
+            $("#PhoneApplicant").mask('+380 (99) 999-99-99');   
             $('#SchoolCollege').val(obj.applicant.SchoolCollege);
             $('#Address').val(obj.applicant.Address);
             $('#MailApplicant').val(obj.applicant.MailApplicant);
-
+            $('#DateAdd').val(obj.applicant.DateAdd);
+            $('#DateEdit').val(obj.applicant.DateEdit);
             updateSelectDepart(applicant.Speciality);
+
+            $('.list-applicant-info').text('| Рядок ' + ($('#list-applicant option:selected').index() + 1) + ' з ' + $('#list-applicant option').size());
         }
     });
 }

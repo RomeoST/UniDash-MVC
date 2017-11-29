@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DashBoard.Models
 {
@@ -16,8 +17,10 @@ namespace DashBoard.Models
         [Required]
         public string Address { get; set; }
         [Required]
-        [RegularExpression("\\d{0,5} ", ErrorMessage = "Не вірний формат відправлення спеціальностей до серверу")]
         public string Speciality { get; set; }
         public string MarkResult { get; set; }
+
+        public string DateAdd { get; set; }
+        public string DateEdit { get; set; }
     }
 }

@@ -43,6 +43,8 @@ namespace DashBoard.Mapping
                 .ForMember(s1 => s1.SchoolCollege, s2 => s2.MapFrom(s3 => s3.SchoolCollege))
                 .ForMember(s1 => s1.Address, s2 => s2.MapFrom(s3 => s3.Address))
                 .ForMember(s1 => s1.Speciality, s2 => s2.MapFrom(s3 => s3.Speciality))
+                .ForMember(s1 => s1.DateEdit, s2 => s2.MapFrom(s3 => s3.DateEdit))
+                .ForMember(s1 => s1.DateAdd, s2 => s2.MapFrom(s3 => s3.DateAdd))
                 .ForMember(s1 => s1.MarkResult, s2 => s2.MapFrom(s3 => s3.MarkResult));
         }
     }

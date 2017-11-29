@@ -220,6 +220,7 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\nprogress.js" />
+    <Content Include="Scripts\pace.min.js" />
     <Content Include="Scripts\pnotify.animate.js" />
     <Content Include="Scripts\pnotify.buttons.js" />
     <Content Include="Scripts\pnotify.callbacks.js" />
@@ -280,6 +281,7 @@
     <Content Include="Views\Error\TimeOut.cshtml" />
     <Content Include="Views\Error\InternalError.cshtml" />
     <Content Include="Views\Shared\_PartialDefaultList.cshtml" />
+    <Content Include="Views\Applicant\_blockSearch.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

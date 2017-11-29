@@ -15,6 +15,7 @@ using DashBoard.Models;
 
 namespace DashBoard.Controllers
 {
+    //[OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
     public class ApplicantController : Controller
     {
         private IApplicantService ApplicantService;
@@ -31,14 +32,20 @@ namespace DashBoard.Controllers
         {
             return View();
         }
-        
+
+        [HttpGet]
+        public ActionResult GetBlSearch()
+        {
+            return PartialView("_blockSearch");
+        }
+
         [HttpGet]
         public ActionResult LoadApplicants(int count)
         {
             var applicants = Task.Run(() => ApplicantService.GetAll()).Result;
 
             ViewBag.IdName = "list-applicant";
-            ViewBag.SizeList = "15";
+            ViewBag.SizeList = "20";
 
             if (count < 1)
                 return PartialView("_PartialDefaultList", new BaseFormModel[]{});

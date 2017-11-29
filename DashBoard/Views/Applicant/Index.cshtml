@@ -30,18 +30,26 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Абітурієнти > Редагування</h2>
+                <h2>Абітурієнти | Редагування</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
+                <div class="col-md-12"><div id="bl-search"></div></div>
                 <div class="col-md-3">
+                    <div class="col-md-12">
+                        <a href="#" class="btn fa-ico-style" data-toggle="tooltip" data-placement="bottom" title="Експорт"><i class="fa fa-file-excel-o"></i></a>
+                        <a href="#" id="btn-search" class="btn fa-ico-style" data-toggle="tooltip" data-placement="bottom" title="Пошук"><i class="fa fa-search"></i></a>
+                    </div>
                     @Html.Action("LoadApplicants", "Applicant", new {count = 0});
+                    <div class="col-md-12">
+                        <span class="list-applicant-info"></span>
+                    </div>
                 </div>
                 <div class="col-md-9" id="form_zero">
-                    @using (Ajax.BeginForm("SaveApplicant", new AjaxOptions() {OnSuccess = "applicant.handler", OnBegin = "applicantHandlerBegin" }))
+                    @using (Ajax.BeginForm("SaveApplicant", new AjaxOptions() {OnSuccess = "applicant.handler", OnBegin = "applicantHandlerBegin"}))
                     {
                         @Html.AntiForgeryToken()
                         <div class="x_panel">
@@ -49,8 +57,8 @@
                             <div class="x_content">
                                 <div class="col-md-6 form-horizontal">
                                     <div class="form-group">
-                                        @Html.Label("Id", new { @class = "control-label col-md-3" })
-                                        <div class="col-md-9">@Html.TextBox("ApplicantId", "", new {@class = "form-control", placeholder = "Ідентифікатор", @readonly = "readonly" })</div>
+                                        @Html.Label("Id", new {@class = "control-label col-md-3"})
+                                        <div class="col-md-9">@Html.TextBox("ApplicantId", "", new {@class = "form-control", placeholder = "Ідентифікатор", @readonly = "readonly"})</div>
                                     </div>
                                     <div class="form-group">
                                         @Html.Label("ПІБ", new {@class = "control-label col-md-3"})
@@ -100,12 +108,30 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="x_panel">
+                            <div class="x_title">Додаткова інформація</div>
+                            <div class="x_content">
+                                <div class="col-md-6 form-horizontal">
+                                    
+                                </div>
+                                <div class="col-md-6 form-horizontal">
+                                    <div class="form-group">
+                                        @Html.Label("Дата створення", new { @class = "control-label col-md-7" })
+                                        <div class="col-md-5">@Html.TextBox("DateAdd", "", new { @class = "form-control", placeholder = "", @readonly = "readonly"})</div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.Label("Дата редагування", new { @class = "control-label col-md-7" })
+                                        <div class="col-md-5">@Html.TextBox("DateEdit", "", new { @class = "form-control", placeholder = "" , @readonly = "readonly" })</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-3 col-md-offset-6">
-                            <button id="btn-cancel"  class="form-control btn-danger" style="display: none" onclick="isNotSendClick = true">Відміна</button>
+                            <button id="btn-cancel" class="form-control btn-danger" style="display: none" onclick="isNotSendClick = true">Відміна</button>
                         </div>
                         <div class="col-md-3">
-                            <input type="submit" id="btn-save" value="Зберегти" class="form-control btn-success"  style="display: none"/>
-                        </div>   
+                            <input type="submit" id="btn-save" value="Зберегти" class="form-control btn-success" style="display: none"/>
+                        </div>
                     }
                 </div>
             </div>
@@ -158,6 +184,10 @@
     .list-group-item-primary {
         color: rgb(255, 255, 255);
         background-color: rgb(66, 139, 202);
+    }
+
+    .fa-ico-style {
+        border-bottom: 1px solid #73879c
     }
 </style>
 
