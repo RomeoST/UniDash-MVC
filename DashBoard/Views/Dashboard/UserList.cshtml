@@ -22,7 +22,7 @@
                         <th>ФІО</th>
                         <th>Email</th>
                         <th>Телефон</th>
-                        <th>Тип</th>
+                        <th></th>
                     </tr>
                     </thead>
                     @foreach (var user in Model)
@@ -30,11 +30,13 @@
                         <tr>
                             <td>@user.Login</td>
                             <td>@user.FullName</td>
-                            <td>@user.Email</td>
+                            <td>@user.Email <a href="#" style="float: right">(Написати)</a></td>
                             <td>@user.Phone</td>
+                            <td><a href="#" style="display: block; text-align: center">Редагувати</a></td>
                         </tr>
                     }
                 </table>
+                <p>Завантажено @Model.Count()</p>
             </div>
         </div>
     </div>

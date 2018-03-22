@@ -55,8 +55,11 @@
   <ItemGroup>
     <Compile Include="Models\Applicant.cs" />
     <Compile Include="Models\ClientProfile.cs" />
-    <Compile Include="Models\DutRole.cs" />
+    <Compile Include="Models\Roles\DutRole.cs" />
     <Compile Include="Models\DutUser.cs" />
+    <Compile Include="Models\Roles\Action.cs" />
+    <Compile Include="Models\Roles\Controller.cs" />
+    <Compile Include="Models\Roles\PermissionRoles.cs" />
     <Compile Include="Models\StructUniversity\Department.cs" />
     <Compile Include="Models\StructUniversity\Faculty.cs" />
     <Compile Include="Models\StructUniversity\Institute.cs" />

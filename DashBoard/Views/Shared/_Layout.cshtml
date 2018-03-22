@@ -62,9 +62,9 @@
                     </li>
                     <li><a><i class="fa fa-edit"></i> Абітурієнти <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
+                            <li>@Html.ActionLink("Таблиця", "LoadTable","Applicant")</li>
                             <li>@Html.ActionLink("Редагування", "Index", "Applicant")</li>
                             <li><a href="form_advanced.html">Статистика</a></li>
-                            <li><a href="form_validation.html">Експорт</a></li>
                         </ul>
                     </li>
                     <li>
@@ -82,13 +82,28 @@
             <div class="menu_section">
                 <h3>Адміністрування</h3>
                 <ul class="nav side-menu">
-                    <li><a><i class="fa fa-bug"></i>Користувачі<span class="fa fa-chevron-down"></span></a>
+                    <li>
+                        <a><i class="fa fa-bug"></i>Користувачі<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="@Url.Action("UserList", "Dashboard")">Список</a></li>
                             <li><a href="projects.html">Підтвердження</a></li>
-                            <li>@Html.ActionLink("Доступ", "AccessEdit", "Dashboard")</li>
+                            <li>@Html.ActionLink("Доступ", "Index", "Permission")</li>
                         </ul>
-                    </li>                
+                    </li>
+                    <li>
+                        <a><i class="fa fa-bug"></i>Університет<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="@Url.Action("Index", "UStruct")">Структура університету</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a><i class="fa fa-bug"></i>Система<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="@Url.Action("UserList", "Dashboard")">Функції</a></li>
+                            <li><a href="projects.html">Логування</a></li>
+                            <li><a href="projects.html">База</a></li>
+                        </ul>
+                    </li>
                     <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
                 </ul>
             </div>
@@ -145,7 +160,7 @@
                 <li role="presentation" class="dropdown">
                     <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-envelope-o"></i>
-                        <span class="badge bg-green">6</span>
+                        <span class="badge bg-green">0</span>
                     </a>
                     <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                         <li>

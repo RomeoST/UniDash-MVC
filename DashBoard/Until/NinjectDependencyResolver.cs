@@ -9,6 +9,7 @@ using DashBoard.BLL.Interfaces;
 using DashBoard.BLL.Services;
 using Ninject;
 using Ninject.Modules;
+using Ninject.Web.Mvc.FilterBindingSyntax;
 
 namespace DashBoard.Until
 {
@@ -38,7 +39,6 @@ namespace DashBoard.Until
 
         private void AddBindings()
         {
-
         }
     }
 }

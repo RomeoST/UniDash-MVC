@@ -41,6 +41,12 @@ namespace DashBoard.DAL.Repositories
             return await DataBase.ClientProfiles.FirstOrDefaultAsync(p => p.DutUser.UserName == name);
         }
 
+        public bool HasPermission(string name)
+        {
+            return true;
+            //DataBase.Roles.
+        }
+
         public void Dispose()
         {
             DataBase.Dispose();

@@ -29,5 +29,7 @@ namespace DashBoard.Model.Models
         public DateTime DateAdd { get; set; }
 
         public virtual DutUser DutUser { get; set; }
+
+        public Applicant() => DateAdd = DateTime.Now;
     }
 }

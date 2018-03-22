@@ -17,63 +17,28 @@ namespace DashBoard.DAL.Repositories
     /// </summary>
     public class IdentityUnitWork : IUnitOfWork
     {
-        private readonly DutContext db;
+        private readonly IDataBaseFactory dataBaseFactory;
+        private DutContext dataContext;
 
-        private readonly DutUserManager userManager;
-        private readonly DutRoleManager roleManager;
-        private readonly IClientManager clientManager;
-        private readonly ISubmissionDoc submissionManager;
-        private readonly IApplicant     applicantManager;
-        private readonly IUStructure    uStructManager;
-
-        public IdentityUnitWork(string connectionString)
+        public IdentityUnitWork(IDataBaseFactory dataBaseFactory)
         {
-            db = new DutContext(connectionString);
-            userManager = new DutUserManager(new UserStore<DutUser>(db));
-            roleManager = new DutRoleManager(new RoleStore<DutRole>(db));
-            clientManager = new ClientManager(db);
-            applicantManager = new ApplicantManager(db);
-            uStructManager = new UStructureManager(db);
-            //submissionManager = new SubmissionManager(db);
+            this.dataBaseFactory = dataBaseFactory;
         }
 
-        public DutUserManager UserManager => userManager;
-        public DutRoleManager RoleManager => roleManager;
-        public IClientManager ClientManager => clientManager;
-        public ISubmissionDoc SubmissionManager => submissionManager;
-        public IApplicant ApplicantManager => applicantManager;
-        public IUStructure UStructManager => uStructManager;
+        protected DutContext DataContext => dataContext ?? (dataContext = dataBaseFactory.Get());
 
         /// <summary>
         /// Збереження всіх даних які відбувалися з БД
         /// </summary>
         /// <returns></returns>
-        public async Task SaveAsync()
+        public async Task CommitAsync()
         {
-            await db.SaveChangesAsync();
+            await dataContext.SaveChangesAsync();
         }
 
-        public void Dispose()
+        public void Commit()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private bool disposed = false;
-        public virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    userManager.Dispose();
-                    roleManager.Dispose();
-                    clientManager.Dispose();
-                    applicantManager.Dispose();
-                    uStructManager.Dispose();
-                }
-                this.disposed = true;
-            }
+            dataContext.SaveChanges();
         }
     }
 }

@@ -52,7 +52,7 @@ function loginComplete(data) {
 }
 
 function requestNotifyComplete(data) {
-    var list = data.responseJSON;
+    var list = typeof data.responseJSON !=='undefined' ? data.responseJSON : data;
 
     if (typeof list.model === "undefined") {
         new PNotify({

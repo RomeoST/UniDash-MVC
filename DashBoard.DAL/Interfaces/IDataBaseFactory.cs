@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DashBoard.DAL.Identity;
+using DashBoard.DAL.EF;
 
 namespace DashBoard.DAL.Interfaces
 {
-    public interface IUnitOfWork
+    public interface IDataBaseFactory : IDisposable
     {
-        void Commit();
-        Task CommitAsync();
+        DutContext Get();
     }
 }

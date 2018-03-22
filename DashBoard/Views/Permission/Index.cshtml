@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<DashBoard.Models.AccessEditFormModel>
 @{
-    ViewBag.Title = "AccessEdit";
+    ViewBag.Title = "UniDush | Редагування доступу";
 }
 
 <!-- Modal -->
@@ -26,7 +26,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Адміністрування -> Доступ</h2>
+                <h2>Користувачі | Доступ</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                 </ul>
@@ -34,6 +34,7 @@
             </div>
             <div class="x_content">
                 <div class="row">
+                    @* Колонка пользователей системы *@
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="x_panel">
                             <div class="x_title">
@@ -43,7 +44,7 @@
                                 </ul>
                                 <div class="clearfix"></div>
                             </div>
-                            <div class="x_content">
+                            <div class="x_content" style="height: 500px">
                                 <select id="listUsers" class="list-default form-control" size="10">
                                     @foreach (var m in Model)
                                     {
@@ -53,26 +54,43 @@
                             </div>
                         </div>
                     </div>
+                    @* Колонка Ролей *@
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>Види доступу</h2>
+                                <h2>Ролі</h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content" style="height: 500px">
+                                <select id="listAccess" class="list-default form-control" size="10"></select>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="position: absolute; bottom: 0;">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <button value="Додати" class="form-control btn-success" data-toggle="modal" data-target="#addModal">Додати</button>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <button value="Видалити" class="form-control btn-danger">Видалити</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @* Колонка доступа к функциям *@
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Доступ до функцій</h2>
                                 <ul class="nav navbar-right panel_toolbox">
                                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                                 </ul>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
-                                <select id="listAccess" class="list-default form-control" size="10">
-                                    
-                                </select>
-                                <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <button value="Додати" class="form-control btn-success" data-toggle="modal" data-target="#addModal">Додати</button>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <button value="Видалити" class="form-control btn-danger">Видалити</button>
-                                </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -87,17 +105,24 @@
         $(function() {
             $("#listUsers").change(function() {
                 var userName = $(this).val();
-                var test = '@Url.Action("AccessGetRoles", "Account")/' + userName;
+                var test = '@Url.Action("AccessGetRoles", "Permission")/' + userName;
                 $.ajax({
                     type: 'GET',
                     url: test,
                     success: function (data) {
-                        $('#listAccess').replaceWith(data);
+                        if (data.model === 'failed')
+                            window.requestNotifyComplete(data);
+                        else
+                            $('#listAccess').replaceWith(data);
+                    },
+                    error: function(data) {
+                        $('body').html(data.responseText);
                     }
                 });
             });
         })
     </script>
 }
+
 
 

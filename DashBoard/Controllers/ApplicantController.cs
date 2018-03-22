@@ -45,7 +45,7 @@ namespace DashBoard.Controllers
             var applicants = Task.Run(() => ApplicantService.GetAll()).Result;
 
             ViewBag.IdName = "list-applicant";
-            ViewBag.SizeList = "20";
+            ViewBag.SizeList = "18";
 
             if (count < 1)
                 return PartialView("_PartialDefaultList", new BaseFormModel[]{});
@@ -113,6 +113,14 @@ namespace DashBoard.Controllers
             var tmp = Mapper.Map<IEnumerable<Department>, IEnumerable<BaseFormModel>>(list);
             ViewBag.IdName = "listDepart";
             return PartialView("_PartialDefaultComboBox", tmp);
-        } 
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> LoadTable()
+        {
+            var applicant = await ApplicantService.GetAll();
+            var res = Mapper.Map<IEnumerable<Applicant>, IEnumerable<ApplicantFormModel>>(applicant);
+            return View(res);
+        }
     }
 }

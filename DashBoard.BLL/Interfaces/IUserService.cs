@@ -17,6 +17,8 @@ namespace DashBoard.BLL.Interfaces
         IEnumerable<ClientProfile> GetAll();
         Task SetInitialData(DutUser adminDto, List<string> roles);
 
+        bool HasPermission(string userName,string requiredPermission);
+
         Task<OperationDetails> EditProfile(DutUser user);
     }
 }

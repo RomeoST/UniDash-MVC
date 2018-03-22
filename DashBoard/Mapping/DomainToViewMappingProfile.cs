@@ -13,7 +13,9 @@ namespace DashBoard.Mapping
         public DomainToViewMappingProfile()
         {
             CreateMap<ClientProfile, UsersViewModel>()
-            .ForMember(s1 => s1.Login, s2 => s2.MapFrom(s3 => s3.DutUser.UserName));
+                .ForMember(s1 => s1.Login, s2 => s2.MapFrom(s3 => s3.DutUser.UserName))
+                .ForMember(s1 => s1.Email, s2 => s2.MapFrom(s3 => s3.DutUser.Email))
+                .ForMember(s1 => s1.Phone, s2 => s2.MapFrom(s3 => s3.DutUser.PhoneNumber));
 
             CreateMap<DutUser, EditUserFormModel>()
                 .ForMember(dest => dest.FullName,

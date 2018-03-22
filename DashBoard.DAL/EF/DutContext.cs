@@ -29,6 +29,11 @@ namespace DashBoard.DAL.EF
             Database.SetInitializer(new CreateDbIfNot());
         }
 
+        public virtual void Commit()
+        {
+            base.SaveChanges();
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
@@ -40,9 +45,15 @@ namespace DashBoard.DAL.EF
         public virtual DbSet<SubmissionDoc> SubmissionDocs { get; set; }
         public virtual DbSet<Applicant>     Applicants     { get; set; }
 
+        // DB for structure of university
         public virtual DbSet<Faculty> Faculties { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Institute> Institutes { get; set; }
+
+        // DB for functions
+        public virtual DbSet<TController> Controllers { get; set; }
+        public virtual DbSet<TAction> Actions { get; set; }
+        public virtual DbSet<PermissionRoles> PermissionRoleses { get; set; }
     }
 
     public static class HelpContext

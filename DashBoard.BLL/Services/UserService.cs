@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,24 +24,22 @@ namespace DashBoard.BLL.Services
         public async Task<OperationDetails> Create(DutUser userDto, string password)
         {
             var user = await DataBase.UserManager.FindByEmailAsync(userDto.Email);
-            if (user == null)
-            {
-                var result = await DataBase.UserManager.CreateAsync(userDto, password);
-                if (result.Errors.Any())
-                    return new OperationDetails(false, result.Errors.FirstOrDefault(), "");
+            if (user != null) return new OperationDetails(false, "Користувач з таким email вже існує", "Email");
 
-                // Добавить роль
-                await DataBase.UserManager.AddToRoleAsync(userDto.Id, "user");
+            var result = await DataBase.UserManager.CreateAsync(userDto, password);
+            if (result.Errors.Any())
+                return new OperationDetails(false, result.Errors.FirstOrDefault(), "");
 
-                // Создание профиля клиента
-                ClientProfile clientProfile = new ClientProfile {Id = userDto.Id, FullName = userDto.ClientProfile.FullName};
-                await DataBase.ClientManager.CreateAsync(clientProfile);
-                await DataBase.SaveAsync();
+            // Добавить роль
+            await DataBase.UserManager.AddToRoleAsync(userDto.Id, "user");
 
-                return new OperationDetails(true, "Реєстрація успішно пройдена","");
-            }
+            // Создание профиля клиента
+            ClientProfile clientProfile = new ClientProfile {Id = userDto.Id, FullName = userDto.ClientProfile.FullName};
+            await DataBase.ClientManager.CreateAsync(clientProfile);
+            await DataBase.SaveAsync();
 
-            return new OperationDetails(false, "Користувач з таким email вже існує", "Email");
+            return new OperationDetails(true, "Реєстрація успішно пройдена","");
+
         }
 
         public async Task<ClaimsIdentity> Authenticate(string login, string password)
@@ -57,19 +56,17 @@ namespace DashBoard.BLL.Services
         public async Task<DutUser> FindByName(string name)
         {
             var user = await DataBase.ClientManager.FindByName(name);
-            if (user != null)
+            if (user == null) return null;
+
+            var result = new DutUser
             {
-                var result = new DutUser
-                {
-                    ClientProfile = user, 
-                    Id = user.DutUser.Id,
-                    UserName = user.DutUser.UserName,
-                    Email = user.DutUser.Email,
-                    PhoneNumber = user.DutUser.PhoneNumber,
-                };
-                return result;
-            }
-            return null;
+                ClientProfile = user, 
+                Id = user.DutUser.Id,
+                UserName = user.DutUser.UserName,
+                Email = user.DutUser.Email,
+                PhoneNumber = user.DutUser.PhoneNumber,
+            };
+            return result;
         }
 
         public IEnumerable<ClientProfile> GetAll()
@@ -83,14 +80,35 @@ namespace DashBoard.BLL.Services
             foreach (var roleName in roles)
             {
                 var role = await DataBase.RoleManager.FindByNameAsync(roleName);
-                if (role == null)
-                {
-                    role = new DutRole() {Name = roleName};
-                    await DataBase.RoleManager.CreateAsync(role);
-                }
+                if (role != null) continue;
+
+                role = new DutRole() {Name = roleName};
+                await DataBase.RoleManager.CreateAsync(role);
             }
 
             //await Create(adminDto);
+        }
+
+        /// <summary>
+        /// Проверить права доступа
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="requiredPermission">/<controller-action/></param>
+        /// <returns></returns>
+        public bool HasPermission(string userName, string requiredPermission)
+        {
+            try
+            {
+                var required = requiredPermission.Split('-');
+                var roles = DataBase.RoleManager.GetPermissionRoles(required[0], required[1]);
+
+                var user = DataBase.UserManager.FindByName(userName);
+                return (from r in user.Roles from dutRole in roles where r.RoleId == dutRole.Id select r).Any();
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public async Task<OperationDetails> EditProfile(DutUser user)
@@ -106,9 +124,6 @@ namespace DashBoard.BLL.Services
             return new OperationDetails(true,"Данні збережені","");
         }
 
-        public void Dispose()
-        {
-            DataBase.Dispose();
-        }
+        public void Dispose() =>  DataBase.Dispose();
     }
 }

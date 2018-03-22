@@ -21,5 +21,7 @@ public class ClientProfile
         public DateTime LastVisitDate { get; set; }
 
         public virtual DutUser DutUser { get; set; }
+
+        public ClientProfile() => CreateDate = DateTime.Now;
     }
 }

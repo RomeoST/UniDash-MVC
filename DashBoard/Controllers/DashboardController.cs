@@ -61,13 +61,5 @@ namespace DashBoard.Controllers
             var model = Mapper.Map<DutUser, EditUserFormModel>(user);
             return View(model);
         }
-
-        public ActionResult AccessEdit()
-        {
-            var users = UserService.GetAll();
-            var model = users.Select(Mapper.Map<ClientProfile, AccessEditFormModel>).ToList();
-
-            return View(model);
-        }
     }
 }

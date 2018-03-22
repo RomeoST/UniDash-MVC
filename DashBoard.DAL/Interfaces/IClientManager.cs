@@ -13,5 +13,7 @@ namespace DashBoard.DAL.Interfaces
         Task CreateAsync(ClientProfile profile);
         IEnumerable<ClientProfile> GetAll();
         Task<ClientProfile> FindByName(string name);
+
+        bool HasPermission(string name);
     }
 }
