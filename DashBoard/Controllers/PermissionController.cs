@@ -24,9 +24,9 @@ namespace DashBoard.Controllers
             RoleService = role;
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var users = UserService.GetAll();
+            var users = await UserService.GetAll();
             var model = users.Select(Mapper.Map<ClientProfile, AccessEditFormModel>).ToList();
 
             return View(model);

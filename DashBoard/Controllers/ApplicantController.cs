@@ -108,9 +108,9 @@ namespace DashBoard.Controllers
 
         [ChildActionOnly]
         [OutputCache(Duration = 120, Location = OutputCacheLocation.Downstream)]
-        public ActionResult GetDepartments()
+        public async Task<ActionResult> GetDepartments()
         {
-            var list = UStructService.FindDepartments(p => p.isAdmission == true).ToList();
+            var list = await UStructService.GetAdmissionDepartments();
             var tmp = Mapper.Map<IEnumerable<Department>, IEnumerable<BaseFormModel>>(list);
             ViewBag.IdName = "listDepart";
             return PartialView("_PartialDefaultComboBox", tmp);

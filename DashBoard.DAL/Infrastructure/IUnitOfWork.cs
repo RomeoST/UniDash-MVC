@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DashBoard.DAL.Identity;
 
-namespace DashBoard.DAL.Interfaces
+namespace DashBoard.DAL.Infrastructure
 {
     public interface IUnitOfWork
     {

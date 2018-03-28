@@ -6,26 +6,32 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DashBoard.BLL.Infrastructure;
 using DashBoard.BLL.Interfaces;
-using DashBoard.DAL.Interfaces;
+using DashBoard.DAL.Infrastructure;
+using DashBoard.DAL.Repositories;
 using DashBoard.Model.Models;
 
 namespace DashBoard.BLL.Services
 {
     public class SubmissionService : ISubmissionService
     {
-        private IUnitOfWork DataBase { get; set; }
+        private IUnitOfWork DataBase { get; }
+        private ISubmissionRepository submissionRepository { get; }
 
-        public SubmissionService(IUnitOfWork uof) => DataBase = uof;
+        public SubmissionService(IUnitOfWork uof, ISubmissionRepository submissionRepository)
+        {
+            DataBase = uof;
+            this.submissionRepository = submissionRepository;
+        }
 
         public async Task<OperationDetails> Create(SubmissionDoc dto)
         {
-            var found = await DataBase.SubmissionManager.FindSubmissionByName(dto.FullName);
-            if (found == null)
-            {
-                await DataBase.SubmissionManager.CreateAsync(dto);
-                return new OperationDetails(true, "Документ абітурієнта створений", "");
-            }
-            return new OperationDetails(false, "Такий абітурієнт вже є у базі", "");
+            var found = await submissionRepository.GetAsync(p=>p.FullName == dto.FullName);
+            if (found != null) return new OperationDetails(false, "Такий абітурієнт вже є у базі", "");
+
+            submissionRepository.Add(dto);
+            await SaveSubmission();
+
+            return new OperationDetails(true, "Документ абітурієнта створений", "");
         }
 
         public async Task<OperationDetails> Edit(SubmissionDoc dto)
@@ -35,18 +41,18 @@ namespace DashBoard.BLL.Services
 
         public async Task<OperationDetails> Delete(SubmissionDoc dto)
         {
-            var found = await DataBase.SubmissionManager.FindSubmissionById(dto.Id);
-            if (found != null)
-            {
-                await DataBase.SubmissionManager.DeleteAsync(dto);
-                return new OperationDetails(true, "Документ абітурієнта видалений", "");
-            }
-            return new OperationDetails(false, "Абітурієнт не знайдений", "");
+            var found = await submissionRepository.GetAsync(p=>p.Id == dto.Id);
+            if (found == null) return new OperationDetails(false, "Абітурієнт не знайдений", "");
+
+            submissionRepository.Delete(dto);
+            await SaveSubmission();
+
+            return new OperationDetails(true, "Документ абітурієнта видалений", "");
         }
 
-        public void Dispose()
+        public async Task SaveSubmission()
         {
-            throw new NotImplementedException();
+            await DataBase.CommitAsync();
         }
     }
 }

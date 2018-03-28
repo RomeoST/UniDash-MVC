@@ -1,4 +1,4 @@
-﻿using DashBoard.DAL.Interfaces;
+﻿using DashBoard.DAL.Infrastructure;
 using DashBoard.DAL.Repositories;
 
 namespace DashBoard.BLL.Infrastructure

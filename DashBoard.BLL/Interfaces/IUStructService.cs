@@ -5,21 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using DashBoard.BLL.Infrastructure;
 using DashBoard.Model.Models;
+using DashBoard.Model.Models.StructUniversity;
 
 namespace DashBoard.BLL.Interfaces
 {
-    public interface IUStructService : IDisposable
+    public interface IUStructService
     {
-        OperationDetails CreateInstitite(Institute institute);
-        OperationDetails DeleteInstitute(Institute institute);
-        IEnumerable<Institute> FindInstitute(Func<Institute, bool> where);
+        Task<OperationDetails> Create(UStructBase structure, TypeStructUniversity type);
+        Task<OperationDetails> Delete(UStructBase structure, TypeStructUniversity type);
+        Task<UStructBase> GetById(int id, TypeStructUniversity type);
+        Task<IEnumerable<UStructBase>> GetAll(TypeStructUniversity type);
 
-        OperationDetails CreateFaculty(Faculty faculty);
-        OperationDetails DeleteFaculty(Faculty faculty);
-        IEnumerable<Faculty> FindFaculty(Func<Faculty, bool> where);
+        Task<IEnumerable<Department>> GetAdmissionDepartments();
 
-        OperationDetails CreateDepartment(Department department);
-        OperationDetails DeleteDepartment(Department department);
-        IEnumerable<Department> FindDepartments(Func<Department, bool> where);
+        Task SaveStructure();
     }
 }

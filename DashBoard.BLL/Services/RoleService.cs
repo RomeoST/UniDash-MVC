@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DashBoard.BLL.Infrastructure;
 using DashBoard.BLL.Interfaces;
-using DashBoard.DAL.Interfaces;
+using DashBoard.DAL.Infrastructure;
 using DashBoard.Model.Models;
 using Microsoft.AspNet.Identity;
 
@@ -13,13 +13,18 @@ namespace DashBoard.BLL.Services
 {
     public class RoleService : IRoleService
     {
-        private IUnitOfWork DataBase { get; set; }
+        private IUnitOfWork DataBase { get; }
+        private RoleManager<DutRole> RoleManager { get; }
 
-        public RoleService(IUnitOfWork uof) => DataBase = uof;
+        public RoleService(IUnitOfWork uof, RoleManager<DutRole> roleManager)
+        { 
+            DataBase = uof;
+            RoleManager = roleManager;
+        }
 
         public async Task<OperationDetails> Create(DutRole role)
         {
-            var result = await DataBase.RoleManager.CreateAsync(role);
+            var result = await RoleManager.CreateAsync(role);
             return result.Succeeded 
                 ? new OperationDetails(true, "Додан новий тип користувача", "") 
                 : new OperationDetails(false, result.Errors.Aggregate("", (current, resultError) => current + (resultError + ",")), "Role");
@@ -27,10 +32,10 @@ namespace DashBoard.BLL.Services
 
         public async Task<OperationDetails> Edit(DutRole model)
         {
-            var role = await DataBase.RoleManager.FindByIdAsync(model.Id);
+            var role = await RoleManager.FindByIdAsync(model.Id);
             if (role != null)
             {
-                IdentityResult result = await DataBase.RoleManager.UpdateAsync(model);
+                IdentityResult result = await RoleManager.UpdateAsync(model);
                 return result.Succeeded 
                     ? new OperationDetails(true, "Оновлення пройшло успішно", "") 
                     : new OperationDetails(false, result.Errors.Aggregate("", (s, s1) => s + (s1 + ",")), "Role");
@@ -40,10 +45,10 @@ namespace DashBoard.BLL.Services
 
         public async Task<OperationDetails> Delete(string id)
         {
-            var role = await DataBase.RoleManager.FindByIdAsync(id);
+            var role = await RoleManager.FindByIdAsync(id);
             if (role != null)
             {
-                var result = await DataBase.RoleManager.DeleteAsync(role);
+                var result = await RoleManager.DeleteAsync(role);
                 return result.Succeeded
                     ? new OperationDetails(true, "Оновлення пройшло успішно", "")
                     : new OperationDetails(false, result.Errors.Aggregate("", (s, s1) => s + (s1 + ",")), "Role");
@@ -53,13 +58,8 @@ namespace DashBoard.BLL.Services
 
         public List<DutRole> GetAll()
         {
-            var roles = DataBase.RoleManager.Roles.ToList();
+            var roles = RoleManager.Roles.ToList();
             return roles;
-        }
-
-        public void Dispose()
-        {
-            DataBase.Dispose();
         }
     }
 }

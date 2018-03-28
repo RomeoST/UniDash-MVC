@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Threading.Tasks;
+using System.Web.Mvc;
 using DashBoard.BLL.Interfaces;
 
 namespace DashBoard.Attributes
@@ -19,7 +20,7 @@ namespace DashBoard.Attributes
             var requiredPermission = $"{filterContext.ActionDescriptor.ControllerDescriptor.ControllerName}-{filterContext.ActionDescriptor.ActionName}";
             var userName = filterContext.HttpContext.User.Identity.Name;
 
-            if (UserService.HasPermission(userName, requiredPermission)) return;
+            if (Task.Run(()=>UserService.HasPermission(userName, requiredPermission)).Result) return;
 
             if(filterContext.HttpContext.Request.IsAjaxRequest())
                 filterContext.Result = new JsonResult()

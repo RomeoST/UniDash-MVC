@@ -8,10 +8,12 @@ using DashBoard.Model.Models;
 
 namespace DashBoard.BLL.Interfaces
 {
-    public interface ISubmissionService : IDisposable
+    public interface ISubmissionService
     {
         Task<OperationDetails> Create(SubmissionDoc dto);
         Task<OperationDetails> Edit(SubmissionDoc dto);
         Task<OperationDetails> Delete(SubmissionDoc dto);
+
+        Task SaveSubmission();
     }
 }

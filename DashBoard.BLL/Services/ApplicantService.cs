@@ -1,6 +1,6 @@
 ﻿using DashBoard.BLL.Infrastructure;
 using DashBoard.BLL.Interfaces;
-using DashBoard.DAL.Interfaces;
+using DashBoard.DAL.Infrastructure;
 using DashBoard.Model.Models;
 using System;
 using System.Collections.Generic;
@@ -13,10 +13,10 @@ namespace DashBoard.BLL.Services
 {
     public class ApplicantService : IApplicantService
     {
-        private IApplicant applicantManager { get; }
+        private IApplicantRepository applicantManager { get; }
         private IUnitOfWork DataBase { get; }
 
-        public ApplicantService(IUnitOfWork uof, IApplicant applicant)
+        public ApplicantService(IUnitOfWork uof, IApplicantRepository applicant)
         { 
             DataBase = uof;
             applicantManager = applicant;

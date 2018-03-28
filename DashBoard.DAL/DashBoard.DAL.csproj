@@ -59,19 +59,20 @@
     <Compile Include="EF\DutContext.cs" />
     <Compile Include="Identity\DutRoleManager.cs" />
     <Compile Include="Identity\DutUserManager.cs" />
-    <Compile Include="Interfaces\IDataBaseFactory.cs" />
-    <Compile Include="Interfaces\IRepository.cs" />
-    <Compile Include="Interfaces\ISubmissionDoc.cs" />
-    <Compile Include="Interfaces\IUnitOfWork.cs" />
-    <Compile Include="Interfaces\IUStructure.cs" />
-    <Compile Include="Interfaces\RepositoryBase.cs" />
+    <Compile Include="Infrastructure\DataBaseFactory.cs" />
+    <Compile Include="Infrastructure\Disposable.cs" />
+    <Compile Include="Infrastructure\IDataBaseFactory.cs" />
+    <Compile Include="Infrastructure\IRepository.cs" />
+    <Compile Include="Infrastructure\IUnitOfWork.cs" />
+    <Compile Include="Infrastructure\RepositoryBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\ApplicantManager.cs" />
-    <Compile Include="Repositories\ClientManager.cs" />
+    <Compile Include="Repositories\ApplicantRepository.cs" />
+    <Compile Include="Repositories\UserProfileRepository.cs" />
     <Compile Include="Repositories\IdentityUnitWork.cs" />
-    <Compile Include="Repositories\PermissionManager.cs" />
-    <Compile Include="Repositories\SubmissionManager.cs" />
-    <Compile Include="Repositories\UStructureManager.cs" />
+    <Compile Include="Repositories\PermissionRepository.cs" />
+    <Compile Include="Repositories\SubmissionRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Repositories\UStructureRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

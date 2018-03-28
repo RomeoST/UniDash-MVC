@@ -63,6 +63,7 @@
     <Compile Include="Models\StructUniversity\Department.cs" />
     <Compile Include="Models\StructUniversity\Faculty.cs" />
     <Compile Include="Models\StructUniversity\Institute.cs" />
+    <Compile Include="Models\StructUniversity\UStructBase.cs" />
     <Compile Include="Models\SubmissionDoc.cs" />
     <Compile Include="Models\UserPosition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

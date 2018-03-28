@@ -8,7 +8,7 @@ using DashBoard.Model.Models;
 
 namespace DashBoard.BLL.Interfaces
 {
-    public interface IRoleService : IDisposable
+    public interface IRoleService
     {
         Task<OperationDetails> Create(DutRole role);
         Task<OperationDetails> Edit(DutRole role);

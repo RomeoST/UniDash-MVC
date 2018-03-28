@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DashBoard.DAL.EF;
 using DashBoard.DAL.Identity;
-using DashBoard.DAL.Interfaces;
+using DashBoard.DAL.Infrastructure;
 using DashBoard.Model.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 

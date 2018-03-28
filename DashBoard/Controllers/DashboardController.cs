@@ -45,9 +45,9 @@ namespace DashBoard.Controllers
         }
 
         [HttpGet]
-        public ActionResult UserList()
+        public async Task<ActionResult> UserList()
         {
-            var users = UserService.GetAll();
+            var users = await UserService.GetAll();
             var model = users.Select(Mapper.Map<ClientProfile, UsersViewModel>).ToList();
             return View(model);
         }

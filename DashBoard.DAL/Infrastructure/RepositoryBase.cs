@@ -6,12 +6,12 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DashBoard.DAL.EF;
 
-namespace DashBoard.DAL.Interfaces
+namespace DashBoard.DAL.Infrastructure
 {
     public abstract class RepositoryBase<T> where T : class
     {
         private DutContext dataContext;
-        private readonly IDbSet<T> dbSet;
+        protected readonly IDbSet<T> dbSet;
 
         protected RepositoryBase(IDataBaseFactory factory)
         {

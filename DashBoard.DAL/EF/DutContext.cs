@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Threading.Tasks;
 using DashBoard.DAL.Configuration;
+using DashBoard.DAL.Infrastructure;
 using DashBoard.Model.Models;
 using DashBoard.DAL.Repositories;
 using Microsoft.AspNet.Identity;
@@ -71,10 +72,12 @@ namespace DashBoard.DAL.EF
             var result = userManager.Create(user, passaword);
             if (result.Succeeded)
             {
+                var factory = new DataBaseFactory();
+                factory.Get();
                 userManager.AddToRole(user.Id, "admin");
-                var m = new ClientManager(context);
-                m.Create(new ClientProfile { Id = user.Id, Enable = true, CreateDate = DateTime.Now });
-                m.DataBase.SaveChanges();
+                var m = new UserProfileRepository(factory);
+                m.Add(new ClientProfile { Id = user.Id, Enable = true, CreateDate = DateTime.Now });
+                factory.Get().SaveChanges();
             }
             else
             {

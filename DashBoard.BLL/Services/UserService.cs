@@ -8,35 +8,47 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DashBoard.BLL.Infrastructure;
 using DashBoard.BLL.Interfaces;
-using DashBoard.DAL.Interfaces;
+using DashBoard.DAL.Infrastructure;
+using DashBoard.DAL.Repositories;
 using DashBoard.Model.Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DashBoard.BLL.Services
 {
     public class UserService : IUserService
     {
-        IUnitOfWork DataBase { get; set; }
+        private IUnitOfWork DataBase { get; }
+        private IUserProfileRepository UserProfileRepository { get; }
+        private IPermissionRepository PermissionRepository { get; }
+        private UserManager<DutUser> UserManager { get; }
+        private RoleManager<DutRole> RoleManager { get; }
 
-        public UserService(IUnitOfWork uow) => DataBase = uow;
+        public UserService(IUnitOfWork uow, IUserProfileRepository userProfileRepository,
+            IPermissionRepository permissionRepository,UserManager<DutUser> userManager, RoleManager<DutRole> roleManager )
+        {
+            DataBase = uow;
+            UserProfileRepository = userProfileRepository;
+            UserManager = userManager;
+            RoleManager = roleManager;
+            PermissionRepository = permissionRepository;
+        }
 
         public async Task<OperationDetails> Create(DutUser userDto, string password)
         {
-            var user = await DataBase.UserManager.FindByEmailAsync(userDto.Email);
+            var user = await UserManager.FindByEmailAsync(userDto.Email);
             if (user != null) return new OperationDetails(false, "Користувач з таким email вже існує", "Email");
 
-            var result = await DataBase.UserManager.CreateAsync(userDto, password);
+            var result = await UserManager.CreateAsync(userDto, password);
             if (result.Errors.Any())
                 return new OperationDetails(false, result.Errors.FirstOrDefault(), "");
 
             // Добавить роль
-            await DataBase.UserManager.AddToRoleAsync(userDto.Id, "user");
+            await UserManager.AddToRoleAsync(userDto.Id, "user");
 
             // Создание профиля клиента
             ClientProfile clientProfile = new ClientProfile {Id = userDto.Id, FullName = userDto.ClientProfile.FullName};
-            await DataBase.ClientManager.CreateAsync(clientProfile);
-            await DataBase.SaveAsync();
+            UserProfileRepository.Add(clientProfile);
+            await SaveUser();
 
             return new OperationDetails(true, "Реєстрація успішно пройдена","");
 
@@ -45,17 +57,17 @@ namespace DashBoard.BLL.Services
         public async Task<ClaimsIdentity> Authenticate(string login, string password)
         {
             ClaimsIdentity claim = null;
-            var user = await DataBase.UserManager.FindAsync(login, password);
+            var user = await UserManager.FindAsync(login, password);
             if (user != null)
                 claim =
-                    await DataBase.UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                    await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
 
             return claim;
         }
 
         public async Task<DutUser> FindByName(string name)
         {
-            var user = await DataBase.ClientManager.FindByName(name);
+            var user = await UserProfileRepository.GetAsync(p=>p.FullName == name);
             if (user == null) return null;
 
             var result = new DutUser
@@ -69,9 +81,9 @@ namespace DashBoard.BLL.Services
             return result;
         }
 
-        public IEnumerable<ClientProfile> GetAll()
+        public async Task<IEnumerable<ClientProfile>> GetAll()
         {
-            return DataBase.ClientManager.GetAll();
+            return await UserProfileRepository.GetAllAsync();
         }
 
         // Инициализация БД  (начальная)
@@ -79,14 +91,12 @@ namespace DashBoard.BLL.Services
         {
             foreach (var roleName in roles)
             {
-                var role = await DataBase.RoleManager.FindByNameAsync(roleName);
+                var role = await RoleManager.FindByNameAsync(roleName);
                 if (role != null) continue;
 
                 role = new DutRole() {Name = roleName};
-                await DataBase.RoleManager.CreateAsync(role);
+                await RoleManager.CreateAsync(role);
             }
-
-            //await Create(adminDto);
         }
 
         /// <summary>
@@ -95,14 +105,14 @@ namespace DashBoard.BLL.Services
         /// <param name="userName"></param>
         /// <param name="requiredPermission">/<controller-action/></param>
         /// <returns></returns>
-        public bool HasPermission(string userName, string requiredPermission)
+        public async Task<bool> HasPermission(string userName, string requiredPermission)
         {
             try
             {
                 var required = requiredPermission.Split('-');
-                var roles = DataBase.RoleManager.GetPermissionRoles(required[0], required[1]);
+                var roles = await PermissionRepository.GetPermissionRoles(required[0], required[1]);
 
-                var user = DataBase.UserManager.FindByName(userName);
+                var user = UserManager.FindByName(userName);
                 return (from r in user.Roles from dutRole in roles where r.RoleId == dutRole.Id select r).Any();
             }
             catch (Exception e)
@@ -113,17 +123,20 @@ namespace DashBoard.BLL.Services
 
         public async Task<OperationDetails> EditProfile(DutUser user)
         {
-            var curus = await DataBase.UserManager.FindByIdAsync(user.Id);
+            var curus = await UserManager.FindByIdAsync(user.Id);
             if(curus == null)
                 return new OperationDetails(false, "Користувач не знайдений","");
             curus.ClientProfile.FullName = user.ClientProfile.FullName;
             curus.Email = user.Email;
             curus.PhoneNumber = user.PhoneNumber;
 
-            await DataBase.SaveAsync();
+            await SaveUser();
             return new OperationDetails(true,"Данні збережені","");
         }
 
-        public void Dispose() =>  DataBase.Dispose();
+        public async Task SaveUser()
+        {
+            await DataBase.CommitAsync();
+        }
     }
 }

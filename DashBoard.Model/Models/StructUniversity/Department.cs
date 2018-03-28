@@ -9,12 +9,6 @@ using System.Threading.Tasks;
 
 namespace DashBoard.Model.Models
 {
-    public enum TypeUStruct
-    {
-        eInstitute,
-        eFaculty
-    }
-
     /// <summary>
     /// Клас таблиці спіальності
     /// </summary>
