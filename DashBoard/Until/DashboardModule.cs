@@ -4,6 +4,11 @@ using DashBoard.Attributes;
 using Ninject;
 using DashBoard.BLL.Interfaces;
 using DashBoard.BLL.Services;
+using DashBoard.DAL.EF;
+using DashBoard.DAL.Identity;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Ninject.Web.Common;
 using Ninject.Web.Mvc.FilterBindingSyntax;
 
 
@@ -18,6 +23,11 @@ namespace DashBoard.Until
             Bind<IRoleService>().To<RoleService>();
             Bind<IApplicantService>().To<ApplicantService>();
             Bind<IUStructService>().To<UStructService>();
+
+            // TODO: В плане архитектуры хз
+            Bind<DutContext>().ToSelf().InRequestScope();
+            Bind(typeof(UserManager<>)).ToSelf();
+            Bind(typeof(UserStore<>)).ToSelf();
 
             this.BindFilter<PermissionFilter>(FilterScope.Controller, 0).WhenControllerHas<PermissionAttribute>();
         }

@@ -42,7 +42,8 @@ namespace DashBoard.Controllers
         [HttpGet]
         public ActionResult LoadApplicants(int count)
         {
-            var applicants = Task.Run(() => ApplicantService.GetAll()).Result;
+            // Используем Task.Run, а не await потому что PartialView не умеет работать с Async/Await
+            var applicants = Task.Run(() => ApplicantService.GetApplicants()).Result;
 
             ViewBag.IdName = "list-applicant";
             ViewBag.SizeList = "18";
@@ -59,9 +60,9 @@ namespace DashBoard.Controllers
             return PartialView("_PartialDefaultList", result);
         }
 
-        public async Task<ActionResult> GetApplicantDetail(int id)
+        public ActionResult GetApplicantDetail(int id)
         {
-            var applicant = await Task.Run(() => ApplicantService.Find(id));
+            var applicant =  ApplicantService.GetApplicantById(id);
             if (applicant == null)
                 return Json(new {model = "failed", modelList = new[] {"Детальної інформації не знайдено!"}});
 
@@ -81,13 +82,13 @@ namespace DashBoard.Controllers
             // Create or Edit applicant
             if (data.ApplicantId == 0)
             {
-                result = await ApplicantService.Create(data);
+                result = await ApplicantService.CreateApplicant(data);
                 return result.Successed ?
                     Json(new { model = "confirmed", modelList = result.Message, applicantId = result.Property }, JsonRequestBehavior.AllowGet) :
                     Json(new { model = "failed", modelList = result.Message }, JsonRequestBehavior.AllowGet);
             }
 
-            result = await ApplicantService.Edit(data);
+            result = await ApplicantService.EditApplicant(data);
 
             return Json(new { model = result.Successed ? "confirmed" : "failed", modelList = result.Message, type="save" }, JsonRequestBehavior.AllowGet);
         }
@@ -96,11 +97,11 @@ namespace DashBoard.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteApplicant(BaseFormModel model)
         {
-            var applicant = await ApplicantService.Find(int.Parse(model.Id));
+            var applicant = ApplicantService.GetApplicantById(int.Parse(model.Id));
             if(applicant == null)
                 return Json(new { model = "failed", modelList = "Абітурієнта не знайдено!" }, JsonRequestBehavior.AllowGet);
 
-            var result = await ApplicantService.Delete(applicant);
+            var result = await ApplicantService.DeleteApplicant(applicant);
 
             return Json(new { model = result.Successed ? "confirmed" : "failed", modelList = result.Message, type="remove" }, JsonRequestBehavior.AllowGet);
         }
@@ -118,7 +119,7 @@ namespace DashBoard.Controllers
         [HttpGet]
         public async Task<ActionResult> LoadTable()
         {
-            var applicant = await ApplicantService.GetAll();
+            var applicant = await ApplicantService.GetApplicants();
             var res = Mapper.Map<IEnumerable<Applicant>, IEnumerable<ApplicantFormModel>>(applicant);
             return View(res);
         }

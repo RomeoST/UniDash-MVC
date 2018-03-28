@@ -297,6 +297,10 @@
       <Project>{1940078e-c277-4c45-b5d8-c4d08710e35a}</Project>
       <Name>DashBoard.BLL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DashBoard.DAL\DashBoard.DAL.csproj">
+      <Project>{1D377BFB-F3E2-487F-8E90-54CC07334B4A}</Project>
+      <Name>DashBoard.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DashBoard.Model\DashBoard.Model.csproj">
       <Project>{7b0b4704-27eb-4bce-ba91-b8f8912013d6}</Project>
       <Name>DashBoard.Model</Name>

@@ -9,15 +9,15 @@ using DashBoard.Model.Models;
 
 namespace DashBoard.BLL.Interfaces
 {
-    public interface IApplicantService : IDisposable
+    public interface IApplicantService
     {
-        Task<OperationDetails> Create(Applicant app);
-        Task<OperationDetails> Edit(Applicant app);
-        Task<OperationDetails> Delete(Applicant app);
+        Task<OperationDetails> CreateApplicant(Applicant app);
+        Task<OperationDetails> EditApplicant(Applicant app);
+        Task<OperationDetails> DeleteApplicant(Applicant app);
 
-        Task<Applicant> Find(int id);
-        Task<IEnumerable<Applicant>> Find(Expression<Func<Applicant, bool>> where);
+        Applicant GetApplicantById(int id);
+        Task<IEnumerable<Applicant>> GetApplicants();
 
-        Task<IEnumerable<Applicant>> GetAll();
+        Task SaveApplicant();
     }
 }

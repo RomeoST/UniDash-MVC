@@ -59,7 +59,6 @@
     <Compile Include="EF\DutContext.cs" />
     <Compile Include="Identity\DutRoleManager.cs" />
     <Compile Include="Identity\DutUserManager.cs" />
-    <Compile Include="Interfaces\IClientManager.cs" />
     <Compile Include="Interfaces\IDataBaseFactory.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\ISubmissionDoc.cs" />

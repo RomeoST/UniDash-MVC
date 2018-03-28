@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using DashBoard.DAL.EF;
 
 namespace DashBoard.DAL.Interfaces
@@ -59,14 +60,29 @@ namespace DashBoard.DAL.Interfaces
             return dbSet.ToList();
         }
 
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await dbSet.ToListAsync();
+        }
+
         public virtual IEnumerable<T> GetMany(Expression<Func<T, bool>> where)
         {
             return dbSet.Where(where).ToList();
         }
 
+        public virtual async Task<IEnumerable<T>> GetManyAsync(Expression<Func<T, bool>> where)
+        {
+            return await dbSet.Where(where).ToListAsync();
+        }
+
         public virtual T Get(Expression<Func<T, bool>> where)
         {
             return dbSet.Where(where).FirstOrDefault();
+        }
+
+        public virtual async Task<T> GetAsync(Expression<Func<T, bool>> where)
+        {
+            return await dbSet.Where(where).FirstOrDefaultAsync();
         }
     }
 }

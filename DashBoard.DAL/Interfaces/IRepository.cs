@@ -16,7 +16,10 @@ namespace DashBoard.DAL.Interfaces
         T GetById(long id);
         T GetById(string id);
         T Get(Expression<Func<T, bool>> where);
+        Task<T> GetAsync(Expression<Func<T, bool>> where);
         IEnumerable<T> GetAll();
+        Task<IEnumerable<T>> GetAllAsync();
         IEnumerable<T> GetMany(Expression<Func<T, bool>> where);
+        Task<IEnumerable<T>> GetManyAsync(Expression<Func<T, bool>> where);
     }
 }
