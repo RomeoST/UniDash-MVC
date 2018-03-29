@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DashBoard.BLL.Infrastructure;
 using DashBoard.BLL.Interfaces;
+using DashBoard.DAL.Identity;
 using DashBoard.DAL.Infrastructure;
 using DashBoard.DAL.Repositories;
 using DashBoard.Model.Models;
@@ -20,16 +21,16 @@ namespace DashBoard.BLL.Services
         private IUnitOfWork DataBase { get; }
         private IUserProfileRepository UserProfileRepository { get; }
         private IPermissionRepository PermissionRepository { get; }
-        private UserManager<DutUser> UserManager { get; }
+        private DutUserManager UserManager { get; }
         private RoleManager<DutRole> RoleManager { get; }
 
         public UserService(IUnitOfWork uow, IUserProfileRepository userProfileRepository,
-            IPermissionRepository permissionRepository,UserManager<DutUser> userManager, RoleManager<DutRole> roleManager )
+            IPermissionRepository permissionRepository,DutUserManager userManager/*, RoleManager<DutRole> roleManager*/ )
         {
             DataBase = uow;
             UserProfileRepository = userProfileRepository;
             UserManager = userManager;
-            RoleManager = roleManager;
+            //RoleManager = roleManager;
             PermissionRepository = permissionRepository;
         }
 
@@ -57,7 +58,7 @@ namespace DashBoard.BLL.Services
         public async Task<ClaimsIdentity> Authenticate(string login, string password)
         {
             ClaimsIdentity claim = null;
-            var user = await UserManager.FindAsync(login, password);
+            var user =  UserManager.Find(login, password);
             if (user != null)
                 claim =
                     await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);

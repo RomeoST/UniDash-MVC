@@ -20,7 +20,7 @@ namespace DashBoard.Controllers
         private IUserService UserService;
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
-        public AccountController(IUserService userService, IRoleService roleService)
+        public AccountController(IUserService userService)
         {
             UserService = userService;
         }
@@ -39,7 +39,7 @@ namespace DashBoard.Controllers
         [HttpPost, AllowAnonymous, ValidateAjax, ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginFormModel model)
         {
-            var claim = await Task.Run(()=> UserService.Authenticate(model.UserName, model.Password));
+            var claim = await UserService.Authenticate(model.UserName, model.Password);
 
             if (claim == null)
                 return Json(new {model = "failed", modelList = new[] {"Невірний логін або пароль"}},

@@ -10,9 +10,9 @@ namespace DashBoard.Controllers
     public class SubmissionController : Controller
     {
         //TODO: Service in development
-        //private ISubmissionService SubmissionService;
+       private ISubmissionService SubmissionService;
 
-        //public SubmissionController(ISubmissionService submissionService) => SubmissionService = submissionService;
+        public SubmissionController(ISubmissionService submissionService) => SubmissionService = submissionService;
         // GET: ApplicantDoc
         public ActionResult Index()
         {

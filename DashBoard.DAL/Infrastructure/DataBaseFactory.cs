@@ -10,8 +10,12 @@ namespace DashBoard.DAL.Infrastructure
     public class DataBaseFactory : Disposable ,IDataBaseFactory
     {
         private DutContext dataContext;
+        private static string _connectionString = "";
 
-        public DutContext Get() => dataContext ?? (dataContext = new DutContext());
+        public DataBaseFactory() { }
+        public DataBaseFactory(string connectionString) => _connectionString = connectionString;
+
+        public DutContext Get() => dataContext ?? (dataContext = new DutContext(_connectionString));
 
         protected override void DisposeCore() => dataContext?.Dispose();
     }

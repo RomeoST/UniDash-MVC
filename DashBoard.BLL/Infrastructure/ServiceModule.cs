@@ -1,5 +1,10 @@
-﻿using DashBoard.DAL.Infrastructure;
+﻿using DashBoard.DAL.EF;
+using DashBoard.DAL.Infrastructure;
 using DashBoard.DAL.Repositories;
+using DashBoard.Model.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Ninject.Web.Common;
 
 namespace DashBoard.BLL.Infrastructure
 {
@@ -18,7 +23,20 @@ namespace DashBoard.BLL.Infrastructure
 
         public override void Load()
         {
-            Bind<IUnitOfWork>().To<IdentityUnitWork>().WithConstructorArgument(_connectionString);
+            Bind<IDataBaseFactory>().To<DataBaseFactory>().WithConstructorArgument(_connectionString);
+            Bind<IUnitOfWork>().To<IdentityUnitWork>();
+
+            Bind<DutContext>().ToSelf().InRequestScope().WithConstructorArgument(_connectionString);
+            Bind(typeof(IUserStore<DutUser>)).To(typeof(UserStore<DutUser>)).InRequestScope();
+            Bind(typeof(UserManager<DutUser>)).ToSelf().InRequestScope();
+
+            Bind<IUserProfileRepository>().To<UserProfileRepository>();
+            Bind<IPermissionRepository>().To<PermissionRepository>();
+            Bind<IApplicantRepository>().To<ApplicantRepository>();
+            Bind<ISubmissionRepository>().To<SubmissionRepository>();
+            Bind<IUStructureRepository<Faculty>>().To<UStructureRepository<Faculty>>();
+            Bind<IUStructureRepository<Institute>>().To<UStructureRepository<Institute>>();
+            Bind<IUStructureRepository<Department>>().To<UStructureRepository<Department>>();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace DashBoard.Attributes
             var requiredPermission = $"{filterContext.ActionDescriptor.ControllerDescriptor.ControllerName}-{filterContext.ActionDescriptor.ActionName}";
             var userName = filterContext.HttpContext.User.Identity.Name;
 
-            if (Task.Run(()=>UserService.HasPermission(userName, requiredPermission)).Result) return;
+            if (string.IsNullOrEmpty(userName) || Task.Run(()=>UserService.HasPermission(userName, requiredPermission)).Result) return;
 
             if(filterContext.HttpContext.Request.IsAjaxRequest())
                 filterContext.Result = new JsonResult()
