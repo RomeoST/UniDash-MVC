@@ -25,11 +25,6 @@ namespace DashBoard.Until
             Bind<IUStructService>().To<UStructService>();
             Bind<ISubmissionService>().To<SubmissionService>();
 
-            // TODO: В плане архитектуры хз
-            //Bind<DutContext>().ToSelf().InRequestScope();
-            //Bind(typeof(UserManager<>)).ToSelf();
-            //Bind(typeof(UserStore<>)).ToSelf();
-
             this.BindFilter<PermissionFilter>(FilterScope.Controller, 0).WhenControllerHas<PermissionAttribute>();
         }
     }

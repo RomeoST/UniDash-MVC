@@ -4,13 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DashBoard.BLL.Interfaces;
+using Ninject;
 
 namespace DashBoard.Controllers
 {
     public class SubmissionController : Controller
     {
         //TODO: Service in development
-       private ISubmissionService SubmissionService;
+       [Inject] public ISubmissionService SubmissionService { get; set; }
 
         public SubmissionController(ISubmissionService submissionService) => SubmissionService = submissionService;
         // GET: ApplicantDoc

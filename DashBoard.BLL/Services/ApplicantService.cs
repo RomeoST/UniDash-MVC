@@ -8,18 +8,19 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DashBoard.DAL.Repositories;
+using Ninject;
 
 namespace DashBoard.BLL.Services
 {
     public class ApplicantService : IApplicantService
     {
-        private IApplicantRepository applicantManager { get; }
-        private IUnitOfWork DataBase { get; }
+        public IUnitOfWork DataBase { get; set; }
+        public IApplicantRepository ApplicantRepository { get; set; }
 
-        public ApplicantService(IUnitOfWork uof, IApplicantRepository applicant)
-        { 
+        public ApplicantService(IUnitOfWork uof, IApplicantRepository rep)
+        {
             DataBase = uof;
-            applicantManager = applicant;
+            ApplicantRepository = rep;
         }
 
         /// <summary>
@@ -31,7 +32,7 @@ namespace DashBoard.BLL.Services
         {
             try
             {
-                var app = await applicantManager.GetAsync(p => p.PhoneApplicant == applicant.PhoneApplicant ||
+                var app = await ApplicantRepository.GetAsync(p => p.PhoneApplicant == applicant.PhoneApplicant ||
                                                                     (p.MailApplicant == applicant.MailApplicant && !string.IsNullOrEmpty(applicant.MailApplicant)) ||
                                                                     p.NameApplicant == applicant.NameApplicant);
                 if (app != null)
@@ -40,9 +41,9 @@ namespace DashBoard.BLL.Services
                 applicant.DateAdd = DateTime.Now;
                 applicant.DateEdit = DateTime.Now;
 
-                applicantManager.Add(applicant);
+                ApplicantRepository.Add(applicant);
                 await SaveApplicant();
-                var newUser = await applicantManager.GetAsync(p => p.PhoneApplicant == applicant.PhoneApplicant);
+                var newUser = await ApplicantRepository.GetAsync(p => p.PhoneApplicant == applicant.PhoneApplicant);
 
                 return new OperationDetails(true, "Абітурієнт доданий у базу!", $"{newUser.ApplicantId}");
             }
@@ -61,7 +62,7 @@ namespace DashBoard.BLL.Services
         public async Task<OperationDetails> EditApplicant(Applicant app)
         {
             //TODO: Дописать проверки на корректность вводимых данных
-            var result = applicantManager.GetById(app.ApplicantId);
+            var result = ApplicantRepository.GetById(app.ApplicantId);
             if(result == null)
                 return new OperationDetails(false, "Помилка при додавані, повторіть спробу пізніше", "");
 
@@ -85,22 +86,22 @@ namespace DashBoard.BLL.Services
         /// <returns></returns>
         public async Task<OperationDetails> DeleteApplicant(Applicant app)
         {
-            var result = applicantManager.GetById(app.ApplicantId);
+            var result = ApplicantRepository.GetById(app.ApplicantId);
             if(result == null)
                 return new OperationDetails(false, "Помилка при видалені, повторіть спробу пізніше", "");
 
-            applicantManager.Delete(app);
+            ApplicantRepository.Delete(app);
             await SaveApplicant();
             return new OperationDetails(true, "Абітурієнт видалений", "");
         }
 
-        public Applicant GetApplicantById(int id) => applicantManager.GetById(id);
+        public Applicant GetApplicantById(int id) => ApplicantRepository.GetById(id);
 
         /// <summary>
         /// Отримати всіх абітурієнтів
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<Applicant>> GetApplicants() => await applicantManager.GetAllAsync();
+        public async Task<IEnumerable<Applicant>> GetApplicants() => await ApplicantRepository.GetAllAsync();
 
         public async Task SaveApplicant()
         {

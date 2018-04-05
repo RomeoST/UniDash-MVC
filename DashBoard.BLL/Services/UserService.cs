@@ -13,26 +13,17 @@ using DashBoard.DAL.Infrastructure;
 using DashBoard.DAL.Repositories;
 using DashBoard.Model.Models;
 using Microsoft.AspNet.Identity;
+using Ninject;
 
 namespace DashBoard.BLL.Services
 {
     public class UserService : IUserService
     {
-        private IUnitOfWork DataBase { get; }
-        private IUserProfileRepository UserProfileRepository { get; }
-        private IPermissionRepository PermissionRepository { get; }
-        private DutUserManager UserManager { get; }
-        private RoleManager<DutRole> RoleManager { get; }
-
-        public UserService(IUnitOfWork uow, IUserProfileRepository userProfileRepository,
-            IPermissionRepository permissionRepository,DutUserManager userManager/*, RoleManager<DutRole> roleManager*/ )
-        {
-            DataBase = uow;
-            UserProfileRepository = userProfileRepository;
-            UserManager = userManager;
-            //RoleManager = roleManager;
-            PermissionRepository = permissionRepository;
-        }
+        [Inject] public IUnitOfWork DataBase { get; set; }
+        [Inject] public IUserProfileRepository UserProfileRepository { get; set; }
+        [Inject] public IPermissionRepository PermissionRepository { get; set; }
+        [Inject] public DutUserManager UserManager { get; set; }
+         public RoleManager<DutRole> RoleManager { get; set; }
 
         public async Task<OperationDetails> Create(DutUser userDto, string password)
         {
@@ -68,18 +59,9 @@ namespace DashBoard.BLL.Services
 
         public async Task<DutUser> FindByName(string name)
         {
-            var user = await UserProfileRepository.GetAsync(p=>p.FullName == name);
-            if (user == null) return null;
+            var user = await UserManager.FindByNameAsync(name);
 
-            var result = new DutUser
-            {
-                ClientProfile = user, 
-                Id = user.DutUser.Id,
-                UserName = user.DutUser.UserName,
-                Email = user.DutUser.Email,
-                PhoneNumber = user.DutUser.PhoneNumber,
-            };
-            return result;
+            return user;
         }
 
         public async Task<IEnumerable<ClientProfile>> GetAll()

@@ -9,6 +9,7 @@ using DashBoard.BLL.Services;
 using DashBoard.Model.Models;
 using DashBoard.Models;
 using Microsoft.AspNet.Identity.Owin;
+using Ninject;
 
 namespace DashBoard.Controllers
 {
@@ -16,16 +17,11 @@ namespace DashBoard.Controllers
     [Authorize]
     public class DashboardController : Controller
     {
-        private IUserService UserService;
-
-        public DashboardController(IUserService userService)
-        {
-            UserService = userService;
-        }
+        [Inject] public IUserService UserService { get; set; }
 
         private async Task<ActionResult> InitDefaultViewBag(string actionOut)
         {
-            var user = await Task.Run(()=>UserService.FindByName(User.Identity.Name));
+            var user = await UserService.FindByName(User.Identity.Name);
             if (user == null)
                 return RedirectToAction("Login", "Account");
 

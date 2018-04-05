@@ -11,19 +11,16 @@ using DashBoard.Model.Models;
 using DashBoard.Models;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using Ninject;
 
 namespace DashBoard.Controllers
 {
     [Authorize, Permission]
     public class AccountController : Controller
     {
-        private IUserService UserService;
+        [Inject]
+        public IUserService UserService { get; set; }
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
-
-        public AccountController(IUserService userService)
-        {
-            UserService = userService;
-        }
 
         [AllowAnonymous]
         public ActionResult Login()

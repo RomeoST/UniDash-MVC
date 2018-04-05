@@ -1,4 +1,5 @@
 ﻿using DashBoard.DAL.EF;
+using DashBoard.DAL.Identity;
 using DashBoard.DAL.Infrastructure;
 using DashBoard.DAL.Repositories;
 using DashBoard.Model.Models;
@@ -26,9 +27,10 @@ namespace DashBoard.BLL.Infrastructure
             Bind<IDataBaseFactory>().To<DataBaseFactory>().WithConstructorArgument(_connectionString);
             Bind<IUnitOfWork>().To<IdentityUnitWork>();
 
+            // Init UserManager
             Bind<DutContext>().ToSelf().InRequestScope().WithConstructorArgument(_connectionString);
-            Bind(typeof(IUserStore<DutUser>)).To(typeof(UserStore<DutUser>)).InRequestScope();
-            Bind(typeof(UserManager<DutUser>)).ToSelf().InRequestScope();
+            Bind(typeof(IUserStore)).To(typeof(DutUserStore)).InRequestScope();
+            Bind(typeof(DutUserManager)).ToSelf().InRequestScope();
 
             Bind<IUserProfileRepository>().To<UserProfileRepository>();
             Bind<IPermissionRepository>().To<PermissionRepository>();

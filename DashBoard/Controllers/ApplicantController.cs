@@ -12,20 +12,16 @@ using DashBoard.BLL.Interfaces;
 using DashBoard.BLL.Services;
 using DashBoard.Model.Models;
 using DashBoard.Models;
+using Ninject;
 
 namespace DashBoard.Controllers
 {
     //[OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
     public class ApplicantController : Controller
     {
-        private IApplicantService ApplicantService;
-        private IUStructService UStructService;
+        [Inject] public IApplicantService ApplicantService { get; set; }
 
-        public ApplicantController(IApplicantService applicantService, IUStructService uStructService)
-        {
-            ApplicantService = applicantService;
-            UStructService = uStructService;
-        }
+        public IUStructService UStructService { get; set; } // TODO: Переписать/Придумать новый алгоритм работы со структурами
 
         // GET: Appicant
         public ActionResult Index()

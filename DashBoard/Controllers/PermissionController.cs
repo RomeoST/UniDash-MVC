@@ -9,20 +9,15 @@ using DashBoard.Attributes;
 using DashBoard.BLL.Interfaces;
 using DashBoard.Model.Models;
 using DashBoard.Models;
+using Ninject;
 
 namespace DashBoard.Controllers
 {
     [Authorize, Permission]
     public class PermissionController : Controller
     {
-        private IUserService UserService;
-        private IRoleService RoleService;
-
-        public PermissionController(IUserService user, IRoleService role)
-        {
-            UserService = user;
-            RoleService = role;
-        }
+        [Inject] public IUserService UserService { get; set; }
+        [Inject] public IRoleService RoleService { get; set; }
 
         public async Task<ActionResult> Index()
         {

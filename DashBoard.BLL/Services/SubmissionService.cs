@@ -9,13 +9,14 @@ using DashBoard.BLL.Interfaces;
 using DashBoard.DAL.Infrastructure;
 using DashBoard.DAL.Repositories;
 using DashBoard.Model.Models;
+using Ninject;
 
 namespace DashBoard.BLL.Services
 {
     public class SubmissionService : ISubmissionService
     {
-        private IUnitOfWork DataBase { get; }
-        private ISubmissionRepository submissionRepository { get; }
+        [Inject] public IUnitOfWork DataBase { get; set; }
+        [Inject] public ISubmissionRepository submissionRepository { get; set; }
 
         public SubmissionService(IUnitOfWork uof, ISubmissionRepository submissionRepository)
         {

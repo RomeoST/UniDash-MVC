@@ -10,23 +10,16 @@ using DashBoard.DAL.Infrastructure;
 using DashBoard.DAL.Repositories;
 using DashBoard.Model.Models;
 using DashBoard.Model.Models.StructUniversity;
+using Ninject;
 
 namespace DashBoard.BLL.Services
 {
     public class UStructService : IUStructService
     {
-        private IUnitOfWork DataBase { get; }
-        private IUStructureRepository<Institute> instituteRepository { get; }
-        private IUStructureRepository<Faculty> facultyRepository { get; }
-        private IUStructureRepository<Department> departmentRepository { get; }
-
-        public UStructService(IUnitOfWork uof, IUStructureRepository<Institute> inst, IUStructureRepository<Faculty> faculty, IUStructureRepository<Department> department)
-        {
-            DataBase = uof;
-            instituteRepository = inst;
-            facultyRepository = faculty;
-            departmentRepository = department;
-        }
+        [Inject] public IUnitOfWork DataBase { get; set; }
+        [Inject] public IUStructureRepository<Institute> instituteRepository { get; set; }
+        [Inject] public IUStructureRepository<Faculty> facultyRepository { get; set; }
+        [Inject] public IUStructureRepository<Department> departmentRepository { get; set; }
 
         /// <summary>
         /// Створення нової структури університету

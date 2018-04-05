@@ -8,19 +8,14 @@ using DashBoard.BLL.Interfaces;
 using DashBoard.DAL.Infrastructure;
 using DashBoard.Model.Models;
 using Microsoft.AspNet.Identity;
+using Ninject;
 
 namespace DashBoard.BLL.Services
 {
     public class RoleService : IRoleService
     {
-        private IUnitOfWork DataBase { get; }
-        private RoleManager<DutRole> RoleManager { get; }
-
-        public RoleService(IUnitOfWork uof, RoleManager<DutRole> roleManager)
-        { 
-            DataBase = uof;
-            RoleManager = roleManager;
-        }
+        [Inject] public IUnitOfWork DataBase { get; set; }
+        [Inject] public RoleManager<DutRole> RoleManager { get; set; }
 
         public async Task<OperationDetails> Create(DutRole role)
         {
